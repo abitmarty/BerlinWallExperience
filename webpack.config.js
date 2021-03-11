@@ -7,17 +7,41 @@ module.exports = {
     rules: [
       {
         test: /\.jsx?$/,
-        loader: 'babel-loader',
-        exclude: /node_modules/
+        use: [
+          {
+            loader: 'babel-loader',
+            options: {
+              exclude: '/node_modules'
+            }
+          }
+        ]
       },
       {
         test: /\.s(a|c)ss$/,
-        loader: ['style-loader', 'css-loader', 'sass-loader']
+        use: [
+          {
+            loader: 'style-loader'
+          },
+          {
+            loader: 'css-loader'
+          },
+          {
+            loader: 'sass-loader'
+          }
+        ]
       },
       {
         test: /\.html$/,
-        loader: 'html-loader'
-      }
+        use: [
+          {
+            loader: 'html-loader'
+          }
+        ]
+      },
+      {
+        test: /\.(png|svg|jpg|jpeg|gif)$/i,
+        type: 'asset/resource'
+      },
     ]
   },
   resolve: {
