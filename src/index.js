@@ -1,7 +1,9 @@
 require('normalize-css');
-import './index.scss'
+import './index.scss';
+import './music.js';
+import './jquery.js';
 
-import anime from 'animejs/lib/anime.es.js';
+//import anime from 'animejs/lib/anime.es.js';
 
 // anime({
 //   targets: '.js-container',
