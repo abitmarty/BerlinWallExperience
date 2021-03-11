@@ -3,6 +3,7 @@ import './index.scss'
 
 import anime from 'animejs/lib/anime.es.js';
 
+
 // anime({
 //   targets: '.js-container',
 //   translateX: 100%,
