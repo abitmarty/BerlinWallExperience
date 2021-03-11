@@ -1,4 +1,6 @@
-$slideWidth: 50vw;
+$slideWidth: 125vh; // Ratio
+$slidePadding: 3;
+$numberSlides: 4;
 
 html, body {
   overflow:hidden;
@@ -6,18 +8,26 @@ html, body {
 
 .slides-container {
   overflow:hidden;
-  width:6*$slideWidth;
+  width:(2 * $slidePadding + $numberSlides) * $slideWidth;
 
   .slide {
     float:left;
     width:$slideWidth;
     height:100vh;
 
-    background:grey;
+    background-image:url('./assets/img/slide-image-horizontal.png');
+    background-size:contain;
+    
+    display:flex;
+    align-items:center;
+    justify-content: center;
+    font-size:80px;
 
-    &:nth-child(even) {
-      background:rgba(grey, .8);
-    }
+    //background:grey;
+
+    // &:nth-child(even) {
+    //   background:rgba(grey, .8);
+    // }
   }
 }
 
@@ -25,4 +35,18 @@ html, body {
   position:fixed;
   top:40px;
   left:40px;
+
+  button {
+    background-color: #fefefe;
+    border:1px solid #ccc;
+    box-shadow:0 1px 5px rgba(black, .1);
+    border-radius:5px;
+    padding:.25em .5em;
+    font-size:16px;
+
+    &:hover {
+      background: #f0f0f0;
+      border-color: #999;
+    }
+  }
 }
