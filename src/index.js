@@ -1,7 +1,4 @@
 require('normalize-css');
-<<<<<<< Updated upstream
-import './index.scss'
-=======
 import './index.scss'
 var $ = require("jquery");
 
@@ -62,4 +59,3 @@ $('.js-control').click(function () {
 
 // Initial setup
 setupAnimation()
->>>>>>> Stashed changes
