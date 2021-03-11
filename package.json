@@ -9,6 +9,11 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+<<<<<<< Updated upstream
+=======
+    "animejs": "^3.2.1",
+    "jquery": "^3.6.0",
+>>>>>>> Stashed changes
     "normalize-css": "^2.3.1"
   },
   "devDependencies": {

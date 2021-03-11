@@ -1,0 +1,31 @@
+<<<<<<< Updated upstream
+=======
+$slideWidth: 50vw;
+
+html, body {
+  overflow:hidden;
+}
+
+.slides-container {
+  overflow:hidden;
+  width:6*$slideWidth;
+
+  .slide {
+    float:left;
+    width:$slideWidth;
+    height:100vh;
+
+    background:grey;
+
+    &:nth-child(even) {
+      background:rgba(grey, .8);
+    }
+  }
+}
+
+.controls {
+  position:fixed;
+  top:40px;
+  left:40px;
+}
+>>>>>>> Stashed changes
