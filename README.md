@@ -1,6 +1,9 @@
 # Berlin Wall Experience
 
-## Development
+## Install
 
-`npm run install`
+`npm install`
+
+## Develop
+Runs on https://localhost:5000
 `npm run dev`
