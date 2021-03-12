@@ -5,11 +5,7 @@ import './index.scss'
 var $ = require("jquery");
 
 // Vars
-<<<<<<< HEAD
-const slidePadding = 3; // The number of clones on each side
-=======
 const slidePadding = 1; // The number of clones on each side
->>>>>>> 5f9bb793d4106b372f8ce537562b95eb6e81c39d
 var containerWidth, slideWidth, windowWidth, startPosition, endPosition, scrollPosition, relScrollPosition;
 var container = $('.js-container');
 var slides = container.find('.js-slide');
@@ -164,8 +160,4 @@ function updateParallax() {
 }
 
 // Initiate the animation
-<<<<<<< HEAD
 setupAnimation();
-=======
-setupAnimation();
->>>>>>> 5f9bb793d4106b372f8ce537562b95eb6e81c39d
