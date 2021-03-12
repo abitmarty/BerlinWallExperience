@@ -5,6 +5,7 @@
   height:auto;
   width:auto;
   z-index:100;
+  opacity:0;
 
   &.item {
 
@@ -44,6 +45,21 @@
         left:10%;
         height:40vh;
       }
+    }
+  }
+}
+
+body {
+  &.is-interactive-mode {
+    .slide-item {
+      transition: opacity 1s ease-out;
+      opacity:1;
+    }
+  }
+
+  &.is-floating-mode {
+    .slide-item {
+      transition: opacity 2s;
     }
   }
 }

@@ -17,3 +17,17 @@
     }
   }
 }
+
+body {
+  &.is-floating-mode, &.is-init-mode {
+    .button-floating-mode, .button-speed-control {
+      display:none;
+    }
+  }
+
+  &.is-interactive-mode {
+    .button-interactive-mode {
+      display:none;
+    }
+  }
+}

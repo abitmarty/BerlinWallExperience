@@ -11,8 +11,12 @@ var slides = container.find('.js-slide');
 var originalSlides = container.find('.js-slide:not(.clone)');
 var slideItems = $('.js-slide-item');
 var isAnimating = false;
+var defaultScrollSpeed = .15;
+
 var scrollDirection = 'right'; // Default direction
-var scrollSpeed = 1; // Default speed
+var scrollSpeed = defaultScrollSpeed;
+; // Default speed
+var mode = 'floating'; // Default mode
 
 // Resize helpers
 var resizeEvent;
@@ -101,11 +105,25 @@ function setTransform(el, transform) {
   el.css({ 'transform': transform });
 }
 
-// Button listeners
+// Speed/direction button listeners
 $('.js-control').on('click', function () {
   scrollDirection = $(this).data('direction');
   scrollSpeed = $(this).data('speed');
   startAnimation();
+});
+
+// Mode button listeners
+$('.js-control-mode').on('click', function () {
+  var newMode = $(this).data('mode');
+  var target = $('body');
+  target.removeClass('is-init-mode');
+  if (newMode === 'floating') {
+    target.removeClass('is-interactive-mode').addClass('is-floating-mode');
+    scrollSpeed = defaultScrollSpeed;
+  } else if (newMode === 'interactive') {
+    target.removeClass('is-floating-mode').addClass('is-interactive-mode');
+  }
+  mode = newMode;
 });
 
 // Recalculate variables on window resize
