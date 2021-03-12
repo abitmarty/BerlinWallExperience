@@ -5,10 +5,11 @@ var $ = require("jquery");
 
 // Vars
 const slidePadding = 3; // The number of clones on each side
-var containerWidth, slideWidth, windowWidth, startPosition, endPosition, scrollPosition;
+var containerWidth, slideWidth, windowWidth, startPosition, endPosition, scrollPosition, relScrollPosition;
 var container = $('.js-container');
 var slides = container.find('.js-slide');
 var originalSlides = container.find('.js-slide:not(.clone)');
+var slideItems = $('.js-slide-item');
 var isAnimating = false;
 var scrollDirection = 'right'; // Default direction
 var scrollSpeed = 1; // Default speed
@@ -69,6 +70,9 @@ function updateAnimation() {
     scrollPosition += 1;
   }
 
+  // Calculate relative scroll position
+  relScrollPosition = Math.ceil(-scrollPosition - (slideWidth * slidePadding));
+
   // Jump to end or start
   if ((originalSlides.length + slidePadding) * slideWidth < pos) {
     scrollPosition = startPosition;
@@ -85,6 +89,7 @@ function updateAnimation() {
   if (scrollSpeed > 0) {
     setTimeout(function () {
       setTransform(container, 'translateX(' + scrollPosition + 'px)');
+      updateParallax();
       updateAnimation();
     }, timeOutSpeed);
   } else {
@@ -121,4 +126,24 @@ $(window).on('resize', function () {
     startAnimation();
   }, 500);
 });
+
+function updateParallax() {
+  slideItems.each(function () {
+    var item = $(this);
+    var factor = item.data('factor');
+    var itemWidth = item.outerWidth();
+    var centerX = windowWidth / 2;
+    var translate = item.data('translate') ?? 0;
+    var offsetLeft = item.offset().left;
+    var realOffset = offsetLeft - translate;
+    var relPosition;
+
+    relPosition = (realOffset - centerX) * (factor - 1);
+
+    //if (realOffset + itemWidth > 0 && realOffset < windowWidth) {
+      item.data('translate', relPosition);
+      setTransform(item, 'translateX(' + relPosition + 'px)');
+   // }
+  });
+}
 
