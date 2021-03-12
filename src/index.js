@@ -128,14 +128,11 @@ function updateParallax() {
   slideItems.each(function () {
     var item = $(this);
     var factor = item.data('factor');
-    var itemWidth = item.outerWidth();
     var centerX = windowWidth / 2;
     var translate = item.data('translate') ?? 0;
     var offsetLeft = item.offset().left;
     var realOffset = offsetLeft - translate;
-    var relPosition;
-
-    relPosition = (realOffset - centerX) * (factor - 1);
+    var relPosition = (realOffset - centerX) * (factor - 1);
 
     item.data('translate', relPosition);
     setTransform(item, 'translateX(' + relPosition + 'px)');
