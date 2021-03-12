@@ -1,0 +1,49 @@
+.slide-item {
+  position: absolute;
+  top:0;
+  left:0;
+  height:auto;
+  width:auto;
+  z-index:100;
+
+  &.item {
+
+    // Slide 1
+    &-1 {
+      &-1 {
+        top:10vh;
+        left:30%;
+        height:50vh;
+      }
+    }
+
+    // Slide 2
+    &-2 {
+      &-1 {
+        top:20vh;
+        left:60%;
+        height:30vh;
+      }
+    }
+
+    // Slide 3
+    &-3 {
+      &-1 {
+        top:10%;
+        right:20%;
+        left:auto;
+        height:60vh;
+      }
+    }
+
+    // Slide 4
+    &-4 {
+      &-1 {
+        top:auto;
+        bottom:15%;
+        left:10%;
+        height:40vh;
+      }
+    }
+  }
+}
