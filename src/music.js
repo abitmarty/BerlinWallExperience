@@ -1,12 +1,33 @@
-var block = 0;
+var blockCenter = 0;
 var check = true;
 var safeValue = 10;
 var isFirst = true;
+var contentBlock = 0;
 
-export function playMusic(pos, slideWidth, scrollDirection){
+export function playMusic(pos, slideWidth, scrollDirection, slidePadding){
     setCenterBlock(pos, slideWidth, scrollDirection);
+    setBlockContent(slidePadding);
 }
 
+// Get the content value of the center of the screen
+function setBlockContent(slidePadding){
+    // Count the amount of images
+    var container_div = document.getElementsByClassName('js-container');
+    var requiredContainer = container_div[0];
+    var count = requiredContainer.getElementsByClassName('js-slide').length;
+    var adjustedCount = count - (slidePadding * 2);
+
+    // Calculate what the content block is
+    if(blockCenter >= 2 && blockCenter <= (adjustedCount + slidePadding)){
+        contentBlock = blockCenter - 1;
+    }else if (blockCenter == 1){
+        contentBlock = adjustedCount;
+    } else{
+        contentBlock = 1;
+    }
+}
+
+// Get the block value of the center of the screen
 function setCenterBlock(pos, slideWidth, scrollDirection){
     //var position = (Math.round((Math.abs(pos))) % slideWidth);
 
@@ -30,11 +51,9 @@ function setCenterBlock(pos, slideWidth, scrollDirection){
     if (positionTry > safeValue) {
         check = true;
     }
-
-    console.log(block);
 }
 
 function setBlockNumber(posTry, slideWidth, scrollDirection){
     var blockNumber = Math.round(Math.abs(posTry) / slideWidth + (scrollDirection === 'right' ? 1 : 0));
-    block = blockNumber;
+    blockCenter = blockNumber;
 }
