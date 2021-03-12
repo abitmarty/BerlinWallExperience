@@ -4,7 +4,7 @@ import './index.scss'
 var $ = require("jquery");
 
 // Vars
-const slidePadding = 3; // The number of clones on each side
+const slidePadding = 1; // The number of clones on each side
 var containerWidth, slideWidth, windowWidth, startPosition, endPosition, scrollPosition, relScrollPosition;
 var container = $('.js-container');
 var slides = container.find('.js-slide');

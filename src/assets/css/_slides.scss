@@ -9,8 +9,13 @@
     width:$slideWidth;
     height:100vh;
 
-    background-image:url(./assets/img/brickwall_@2X.png);
-    background-size: 110px 69px;
+    background-size: 100% 100%;
+
+    @for $i from 1 through 13 {
+      &.slide-#{$i} {
+        background-image:url('./assets/img/wall/wall-#{$i}.jpg');
+      }
+    }
 
     &::after {
       content:'';
