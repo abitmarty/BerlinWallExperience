@@ -63,11 +63,15 @@ function updateAnimation() {
     console.log('We are entering block ' + blockNumber);
   }
 
+  var minStepSize = .5;
+  var maxStepSize = 3;
+  var stepSize = (scrollSpeed * (maxStepSize - minStepSize));
+
   // Set new scroll position
   if (scrollDirection === 'right') {
-    scrollPosition -= 1;
+    scrollPosition -= stepSize;
   } else if (scrollDirection === 'left') {
-    scrollPosition += 1;
+    scrollPosition += stepSize;
   }
 
   // Calculate relative scroll position
@@ -79,19 +83,14 @@ function updateAnimation() {
   } else if (containerWidth - windowWidth - ((originalSlides.length + slidePadding) * slideWidth) > pos) {
     scrollPosition = endPosition;
   }
-
-  // Set settimeout interval
-  var minSpeed = 80;
-  var maxSpeed = 0;
-  var timeOutSpeed = ((1 - scrollSpeed) * (minSpeed - maxSpeed)) + maxSpeed;
   
   // Update DOM
   if (scrollSpeed > 0) {
-    setTimeout(function () {
+    requestAnimationFrame(function () {
       setTransform(container, 'translateX(' + scrollPosition + 'px)');
       updateParallax();
       updateAnimation();
-    }, timeOutSpeed);
+    });
   } else {
     isAnimating = false;
   }
