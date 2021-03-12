@@ -108,9 +108,6 @@ $('.js-control').on('click', function () {
   startAnimation();
 });
 
-// Initial setup
-setupAnimation()
-
 // Recalculate variables on window resize
 // The function temporarily stops the animation until resize is finished
 $(window).on('resize', function () {
@@ -126,6 +123,7 @@ $(window).on('resize', function () {
   }, 500);
 });
 
+// Recalculate parallax positions
 function updateParallax() {
   slideItems.each(function () {
     var item = $(this);
@@ -139,10 +137,10 @@ function updateParallax() {
 
     relPosition = (realOffset - centerX) * (factor - 1);
 
-    //if (realOffset + itemWidth > 0 && realOffset < windowWidth) {
-      item.data('translate', relPosition);
-      setTransform(item, 'translateX(' + relPosition + 'px)');
-   // }
+    item.data('translate', relPosition);
+    setTransform(item, 'translateX(' + relPosition + 'px)');
   });
 }
 
+// Initiate the animation
+setupAnimation();
