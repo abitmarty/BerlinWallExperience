@@ -1,16 +1,7 @@
-#container {
-   overflow:auto;
-   width:3*60vw;
 
-  .slide {
-    float:left;
-    width:60vw;
-    height:100vh;
+@import 'assets/css/variables';
+@import 'assets/css/base';
 
-    background:grey;
-
-    &:nth-child(even) {
-      background:rgba(grey, .8);
-    }
-  }
-}
+@import 'assets/css/slides';
+@import 'assets/css/items';
+@import 'assets/css/controls';

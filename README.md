@@ -4,7 +4,12 @@
 
 `npm install`
 
-## Run dev
-Runs on http://localhost:5000/
+## Develop
+Runs on https://localhost:5000
 
 `npm run dev`
+
+## Build
+Builds to /build
+
+`npm run build`

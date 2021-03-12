@@ -9,14 +9,65 @@
     <title>Berlin Wall Experience!</title>
   </head>
 
-  <body>
+  <body class="is-init-mode">
 
-    <div id="container">
+    <div class="slides-container">
       <div class="js-container">
-        <div class="slide" id="slide-1"></div>
-        <div class="slide" id="slide-2"></div>
-        <div class="slide" id="slide-3"></div>
+        <div class="js-slide clone slide" data-clone="2">
+          2
+          <img class="slide-item js-slide-item item-2-1" data-factor="1.3" src="assets/img/polaroid-1.png"
+            lazyload="true" />
+        </div><!-- .slide -->
+        <div class="js-slide clone slide">
+          3
+          <img class="slide-item js-slide-item item-3-1" data-factor="1.1" src="assets/img/polaroid-2.png" lazyload="true" />
+        </div><!-- .slide -->
+        <div class="js-slide clone slide">
+          4
+          <img class="slide-item js-slide-item item-4-1" data-factor=".7" src="assets/img/polaroid-2.png" lazyload="true" />
+        </div> <!-- .slide -->
+        <div class="js-slide slide">
+          1
+          <img class="slide-item js-slide-item item-1-1" data-factor="1.3" src="assets/img/polaroid-1.png" lazyload="true" />
+        </div><!-- .slide -->
+        <div class="js-slide slide">
+          2
+          <img class="slide-item js-slide-item item-2-1" data-factor=".8" src="assets/img/polaroid-1.png" lazyload="true"/>
+        </div><!-- .slide -->
+        <div class="js-slide slide">
+          3
+          <img class="slide-item js-slide-item item-3-1" data-factor="1.1" src="assets/img/polaroid-2.png" lazyload="true" />
+        </div><!-- .slide -->
+        <div class="js-slide slide">
+          4
+          <img class="slide-item js-slide-item item-4-1" data-factor=".7" src="assets/img/polaroid-2.png" lazyload="true" />
+        </div><!-- .slide -->
+        <div class="js-slide clone slide">
+          1
+          <img class="slide-item js-slide-item item-1-1" data-factor="1.3" src="assets/img/polaroid-1.png" lazyload="true" />
+        </div><!-- .slide -->
+        <div class="js-slide clone slide">
+          2
+          <img class="slide-item js-slide-item item 2-1" data-factor=".8" src="assets/img/polaroid-1.png" lazyload="true" />
+        </div><!-- .slide -->
+        <div class="js-slide clone slide">
+          3
+          <img class="slide-item js-slide-item item-3-1" data-factor="1.1" src="assets/img/polaroid-2.png" lazyload="true" />
+        </div><!-- .slide -->
       </div>
+    </div>
+
+    <div class="controls">
+      <button class="js-control button-speed-control" data-direction="left" data-speed="1">&#60;&#60;&#60;</button>
+      <button class="js-control button-speed-control" data-direction="left" data-speed=".75">&#60;&#60;</button>
+      <button class="js-control button-speed-control" data-direction="left" data-speed=".25">&#60;</button>
+      <button class="js-control button-speed-control" data-direction="left" data-speed="0">||</button>
+      <button class="js-control button-speed-control" data-direction="right" data-speed=".25">></button>
+      <button class="js-control button-speed-control" data-direction="right" data-speed=".75">>></button>
+      <button class="js-control button-speed-control" data-direction="right" data-speed="1">>>></button>
+      
+      <button class="js-control-mode button-floating-mode" data-mode="floating" data-speed="1">FLOATING MODE</button>
+      <button class="js-control-mode button-interactive-mode" data-mode="interactive" data-speed="1">INTERACTIVE MODE</button>
     </div>
 
   </body>

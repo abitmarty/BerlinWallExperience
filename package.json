@@ -4,12 +4,14 @@
   "description": "Berlin Wall Experience",
   "main": "index.js",
   "scripts": {
-    "dev": "node ./dev.js"
+    "dev": "node ./dev.js",
+    "build": "webpack --mode=production"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "animejs": "^3.2.1",
+    "jquery": "^3.6.0",
     "normalize-css": "^2.3.1"
   },
   "devDependencies": {
@@ -19,11 +21,11 @@
     "clean-webpack-plugin": "^2.0.1",
     "css-loader": "^2.1.1",
     "html-loader": "^0.5.5",
-    "html-webpack-plugin": "^3.2.0",
-    "node-sass": "^4.11.0",
+    "html-webpack-plugin": "^5.3.1",
+    "node-sass": "^4.14.1",
     "sass-loader": "^7.1.0",
     "style-loader": "^0.23.1",
-    "webpack": "^4.29.5",
+    "webpack": "^5.24.4",
     "webpack-cli": "^3.2.3",
     "webpack-dev-server": "^3.2.1"
   },
