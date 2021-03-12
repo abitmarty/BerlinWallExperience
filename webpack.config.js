@@ -1,5 +1,6 @@
 const HtmlWebPackPlugin = require('html-webpack-plugin')
 const CleanWebpackPlugin = require('clean-webpack-plugin');
+const path = require('path')
 
 module.exports = {
   mode: 'development',
@@ -7,17 +8,41 @@ module.exports = {
     rules: [
       {
         test: /\.jsx?$/,
-        loader: 'babel-loader',
-        exclude: /node_modules/
+        use: [
+          {
+            loader: 'babel-loader',
+            options: {
+              exclude: '/node_modules'
+            }
+          }
+        ]
       },
       {
         test: /\.s(a|c)ss$/,
-        loader: ['style-loader', 'css-loader', 'sass-loader']
+        use: [
+          {
+            loader: 'style-loader'
+          },
+          {
+            loader: 'css-loader'
+          },
+          {
+            loader: 'sass-loader'
+          }
+        ]
       },
       {
         test: /\.html$/,
-        loader: 'html-loader'
-      }
+        use: [
+          {
+            loader: 'html-loader'
+          }
+        ]
+      },
+      {
+        test: /\.(png|svg|jpg|jpeg|gif)$/i,
+        type: 'asset/resource'
+      },
     ]
   },
   resolve: {
@@ -29,5 +54,12 @@ module.exports = {
       template: './src/index.html',
       filename: './index.html'
     })
-  ]
+  ],
+  entry: {
+    index: path.resolve(__dirname, './src/index.js')
+  },
+  output: {
+    path: path.resolve(__dirname, './build'),
+    filename: '[name].bunde.js'
+  }
 }
