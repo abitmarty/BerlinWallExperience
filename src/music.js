@@ -7,6 +7,13 @@ var contentBlock = 0;
 export function playMusic(pos, slideWidth, scrollDirection, slidePadding){
     setCenterBlock(pos, slideWidth, scrollDirection);
     setBlockContent(slidePadding);
+    playAudio();
+}
+
+function playAudio(){
+    var audioSlide2 = new Audio('./assets/audio/ww2.mp3');
+    //let click_sound = require('./assets/audio/ww2.mp3');
+    //audioSlide2.play();
 }
 
 // Get the content value of the center of the screen
