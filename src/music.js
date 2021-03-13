@@ -4,14 +4,18 @@ var safeValue = 10;
 var isFirst = true;
 var contentBlock = 0;
 
+//import soundfile from './assets/audio/ww2.mp3'; 
+
 export function playMusic(pos, slideWidth, scrollDirection, slidePadding){
+    const smthn = require('./assets/audio/ww2.mp3');
     setCenterBlock(pos, slideWidth, scrollDirection);
     setBlockContent(slidePadding);
     playAudio();
 }
 
 function playAudio(){
-    var audioSlide2 = new Audio('./assets/audio/ww2.mp3');
+    //let sound = new Audio(soundfile);
+    //var audioSlide2 = new Audio('./assets/audio/ww2.mp3');
     //let click_sound = require('./assets/audio/ww2.mp3');
     //audioSlide2.play();
 }
