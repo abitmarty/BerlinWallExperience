@@ -4,17 +4,18 @@ var safeValue = 10;
 var isFirst = true;
 var contentBlock = 0;
 
+import audioFile from './assets/audio/ww2.mp3';
+
 export function playMusic(pos, slideWidth, scrollDirection, slidePadding){
     setCenterBlock(pos, slideWidth, scrollDirection);
     setBlockContent(slidePadding);
-import audioFile from './assets/audio/ww2.mp3';
     playAudio();
 }
 
 function playAudio(){
     var audioSlide2 = new Audio(audioFile);
     //let click_sound = require('./assets/audio/ww2.mp3');
-    //audioSlide2.play();
+    audioSlide2.play();
 }
 
 // Get the content value of the center of the screen
