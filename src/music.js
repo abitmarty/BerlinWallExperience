@@ -9,7 +9,7 @@ import audioFile from './assets/audio/ww2.mp3';
 export function playMusic(pos, slideWidth, scrollDirection, slidePadding){
     setCenterBlock(pos, slideWidth, scrollDirection);
     setBlockContent(slidePadding);
-    playAudio();
+    //playAudio();
 }
 
 function playAudio(){
