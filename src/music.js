@@ -4,20 +4,19 @@ var safeValue = 10;
 var isFirst = true;
 var contentBlock = 0;
 
-//import soundfile from './assets/audio/ww2.mp3'; 
+import audioFile from './assets/audio/ww2.mp3';
 
 export function playMusic(pos, slideWidth, scrollDirection, slidePadding){
     const smthn = require('./assets/audio/ww2.mp3');
     setCenterBlock(pos, slideWidth, scrollDirection);
     setBlockContent(slidePadding);
-    playAudio();
+    //playAudio();
 }
 
 function playAudio(){
-    //let sound = new Audio(soundfile);
-    //var audioSlide2 = new Audio('./assets/audio/ww2.mp3');
+    var audioSlide2 = new Audio(audioFile);
     //let click_sound = require('./assets/audio/ww2.mp3');
-    //audioSlide2.play();
+    audioSlide2.play();
 }
 
 // Get the content value of the center of the screen

@@ -1,7 +1,6 @@
 const HtmlWebPackPlugin = require('html-webpack-plugin')
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const path = require('path')
-var SRC = path.resolve(__dirname, 'src/main/js');
 
 module.exports = {
   mode: 'development',
@@ -46,9 +45,12 @@ module.exports = {
       },
       {
         test: /\.mp3$/,
-        include: SRC,
-        loader: 'file-loader'
-    }
+        use: [
+          {
+            loader: 'file-loader'
+          }
+        ]
+      }
     ]
   },
   resolve: {
