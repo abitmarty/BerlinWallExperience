@@ -7,11 +7,12 @@ var contentBlock = 0;
 export function playMusic(pos, slideWidth, scrollDirection, slidePadding){
     setCenterBlock(pos, slideWidth, scrollDirection);
     setBlockContent(slidePadding);
+import audioFile from './assets/audio/ww2.mp3';
     playAudio();
 }
 
 function playAudio(){
-    var audioSlide2 = new Audio('./assets/audio/ww2.mp3');
+    var audioSlide2 = new Audio(audioFile);
     //let click_sound = require('./assets/audio/ww2.mp3');
     //audioSlide2.play();
 }
