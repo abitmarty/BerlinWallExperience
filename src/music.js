@@ -1,22 +1,107 @@
 var blockCenter = 0;
 var check = true;
-var safeValue = 10;
+var safeValue = 5;
 var isFirst = true;
 var contentBlock = 0;
+import block2Audio from './assets/audio/rock.mp3';
+import block5Audio from './assets/audio/ww2.mp3';
 
-import audioFile from './assets/audio/ww2.mp3';
+const AudioContext = window.AudioContext || window.webkitAudioContext;
+const audioCtx = new AudioContext();
+
+// Sound blocks 
+var targetedBlocks = [];
+targetedBlocks.key2 = block2Audio;
+targetedBlocks.key12 = block5Audio;
+
+//console.log(targetedBlocks[0].value);
+
+// if (targetedBlocks.hasOwnProperty("key5")){
+//     console.log("yesirski");
+// } else {
+//     console.log("nononon");
+
+// }
+
+
+// load sound block 2
+//var targetedContentBlock = 2;
+var audioSlide2 = new Audio(block2Audio);
+//audioSlide2 = new Audio(block5Audio);
+
+audioSlide2.loop = true;
+const trackSlide2 = audioCtx.createMediaElementSource(audioSlide2);
+var positionTry = 0;
+
+
+// load sound block 5
+// var audioSlide5 = new Audio(block2Audio);
+// audioSlide5.loop = true;
+//const trackSlide5 = audioCtx.createMediaElementSource(audioSlide2);
+
+// volume
+const gainNode = audioCtx.createGain();
+trackSlide2.connect(gainNode).connect(audioCtx.destination);
+
+
 
 export function playMusic(pos, slideWidth, scrollDirection, slidePadding){
-    const smthn = require('./assets/audio/ww2.mp3');
-    setCenterBlock(pos, slideWidth, scrollDirection);
+    // - half the window size to get the center of the screen
+    var posTry = pos - ($(window).width()/2);
+    positionTry = (Math.round((Math.abs(posTry))) % slideWidth);
+    setCenterBlock(pos, slideWidth, scrollDirection, posTry, positionTry);
     setBlockContent(slidePadding);
-    //playAudio();
+    playAudio(slideWidth);
 }
 
-function playAudio(){
-    var audioSlide2 = new Audio(audioFile);
-    //let click_sound = require('./assets/audio/ww2.mp3');
-    audioSlide2.play();
+function playAudio(slideWidth){
+    // check if context is in suspended state (autoplay policy)
+	if (audioCtx.state === 'suspended') {
+		audioCtx.resume();
+	}
+
+    // Calculate value 0 to 1
+    //var panning = Math.round((100/slideWidth) * positionTry) / 100;
+
+    // Calculate gain
+    var gainBuildUp = (Math.round((100/slideWidth) * positionTry) / 100);
+    var gainBuildDown = 1-gainBuildUp;
+
+    var targetedContentBlock;
+    if (targetedBlocks.hasOwnProperty("key" + contentBlock)){
+        targetedContentBlock = contentBlock;
+        //console.log("were in sound block");
+    } else if (targetedBlocks.hasOwnProperty("key" + (contentBlock + 1))){
+        targetedContentBlock = contentBlock + 1;
+        //console.log("were before sound block");
+    } else if (targetedBlocks.hasOwnProperty("key" + (contentBlock - 1))){
+        targetedContentBlock = contentBlock - 1;
+        //console.log("were after sound block");
+    }else {
+        targetedContentBlock = 1000;
+    }
+
+    // The block before the targeted block
+    if(contentBlock == (targetedContentBlock - 1)){
+        gainNode.gain.value = gainBuildUp;
+        if(audioSlide2.paused){
+            // Play audio after interaction with DOM
+            audioSlide2.play().catch(function(error) { });
+        }
+    } else if(contentBlock == targetedContentBlock){
+        if(audioSlide2.paused){
+            audioSlide2.play().catch(function(error) { });
+        }
+    } else if(contentBlock == (targetedContentBlock + 1)){
+        gainNode.gain.value = gainBuildDown;
+        if(audioSlide2.paused){
+            audioSlide2.play().catch(function(error) { });
+        }
+    } else {
+        // Reset to start of audio (we dont have to do this. This might not even be ludic -- remove line 112)
+        audioSlide2.pause();
+        audioSlide2.currentTime = 0;
+    }
 }
 
 // Get the content value of the center of the screen
@@ -38,13 +123,7 @@ function setBlockContent(slidePadding){
 }
 
 // Get the block value of the center of the screen
-function setCenterBlock(pos, slideWidth, scrollDirection){
-    //var position = (Math.round((Math.abs(pos))) % slideWidth);
-
-    // - half the window size to get the center of the screen
-    var posTry = pos - ($(window).width()/2);
-    var positionTry = (Math.round((Math.abs(posTry))) % slideWidth);
-
+function setCenterBlock(pos, slideWidth, scrollDirection, posTry){
     // On first time
     if (isFirst){
         isFirst = false;
@@ -52,8 +131,14 @@ function setCenterBlock(pos, slideWidth, scrollDirection){
     }
 
     // Sometimes position skips 0 so we check for a few low values
-    if (positionTry < safeValue && check) {
+    if (positionTry < safeValue) {
+        check = false;
         setBlockNumber(posTry, slideWidth, scrollDirection);
+    }
+
+    // Due to the never 0 issue  we check the left over values
+    if(positionTry <= safeValue && !check && scrollDirection === 'left'){
+        positionTry = slideWidth;
     }
 
     // Adition to the function above

@@ -50,6 +50,14 @@ module.exports = {
             loader: 'file-loader'
           }
         ]
+      },
+      {
+        test: /\.wav$/,
+        use: [
+          {
+            loader: 'file-loader'
+          }
+        ]
       }
     ]
   },
