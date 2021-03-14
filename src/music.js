@@ -78,7 +78,6 @@ function playAudio(slideWidth){
     } else if(contentBlock == (targetedContentBlock + 1)){
         gainNode.gain.value = gainBuildDown;
         panner.pan.value = 0 - gainBuildUp;
-        console.log(gainBuildUp);
         if(audioSource.paused){
             audioSource.play().catch(function(error) { });
         }
