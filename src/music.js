@@ -3,47 +3,33 @@ var check = true;
 var safeValue = 5;
 var isFirst = true;
 var contentBlock = 0;
-import block2Audio from './assets/audio/rock.mp3';
-import block5Audio from './assets/audio/ww2.mp3';
+import block5Audio from './assets/audio/rock.mp3';
+import block2Audio from './assets/audio/ww2.mp3';
 
 const AudioContext = window.AudioContext || window.webkitAudioContext;
-const audioCtx = new AudioContext();
+//var audioCtx = new AudioContext();
+var audioCtx = new AudioContext();
+var gainNode = audioCtx.createGain();
 
 // Sound blocks 
+// Simply import the audio and put them in the targetedBlocks array (make sure there is at least 2 free spaces between audio files)
 var targetedBlocks = [];
+var lastTargetedBlock = 1000;
 targetedBlocks.key2 = block2Audio;
-targetedBlocks.key12 = block5Audio;
+targetedBlocks.key5 = block5Audio;
 
 //console.log(targetedBlocks[0].value);
-
-// if (targetedBlocks.hasOwnProperty("key5")){
-//     console.log("yesirski");
-// } else {
-//     console.log("nononon");
-
-// }
 
 
 // load sound block 2
 //var targetedContentBlock = 2;
-var audioSlide2 = new Audio(block2Audio);
-//audioSlide2 = new Audio(block5Audio);
-
-audioSlide2.loop = true;
-const trackSlide2 = audioCtx.createMediaElementSource(audioSlide2);
+var audioSlide2;
+var trackSlide2;;
 var positionTry = 0;
 
-
-// load sound block 5
-// var audioSlide5 = new Audio(block2Audio);
-// audioSlide5.loop = true;
-//const trackSlide5 = audioCtx.createMediaElementSource(audioSlide2);
-
 // volume
-const gainNode = audioCtx.createGain();
-trackSlide2.connect(gainNode).connect(audioCtx.destination);
-
-
+//const gainNode = audioCtx.createGain();
+//trackSlide2.connect(gainNode).connect(audioCtx.destination);
 
 export function playMusic(pos, slideWidth, scrollDirection, slidePadding){
     // - half the window size to get the center of the screen
@@ -56,9 +42,9 @@ export function playMusic(pos, slideWidth, scrollDirection, slidePadding){
 
 function playAudio(slideWidth){
     // check if context is in suspended state (autoplay policy)
-	if (audioCtx.state === 'suspended') {
-		audioCtx.resume();
-	}
+	// if (audioCtx.state === 'suspended') {
+	// 	audioCtx.resume();
+	// }
 
     // Calculate value 0 to 1
     //var panning = Math.round((100/slideWidth) * positionTry) / 100;
@@ -70,12 +56,15 @@ function playAudio(slideWidth){
     var targetedContentBlock;
     if (targetedBlocks.hasOwnProperty("key" + contentBlock)){
         targetedContentBlock = contentBlock;
+        setAudioSource(targetedContentBlock);
         //console.log("were in sound block");
     } else if (targetedBlocks.hasOwnProperty("key" + (contentBlock + 1))){
         targetedContentBlock = contentBlock + 1;
+        setAudioSource(targetedContentBlock);
         //console.log("were before sound block");
     } else if (targetedBlocks.hasOwnProperty("key" + (contentBlock - 1))){
         targetedContentBlock = contentBlock - 1;
+        setAudioSource(targetedContentBlock);
         //console.log("were after sound block");
     }else {
         targetedContentBlock = 1000;
@@ -98,10 +87,23 @@ function playAudio(slideWidth){
             audioSlide2.play().catch(function(error) { });
         }
     } else {
-        // Reset to start of audio (we dont have to do this. This might not even be ludic -- remove line 112)
+        // Reset to start of audio
         audioSlide2.pause();
         audioSlide2.currentTime = 0;
     }
+}
+
+// Create new audio based on the position we're in
+function setAudioSource(targetedContentBlock){
+    if (lastTargetedBlock != targetedContentBlock){
+        audioCtx = new AudioContext();
+        gainNode = audioCtx.createGain();
+        audioSlide2 = new Audio(targetedBlocks["key" + targetedContentBlock]);
+        audioSlide2.loop = true;
+        const trackSlide2 = audioCtx.createMediaElementSource(audioSlide2);
+        trackSlide2.connect(gainNode).connect(audioCtx.destination);
+    }
+    lastTargetedBlock = targetedContentBlock;
 }
 
 // Get the content value of the center of the screen
