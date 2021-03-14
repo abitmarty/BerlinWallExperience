@@ -2,8 +2,6 @@
 Made by Greg, with love and sacrifices to the elder gods
 */
 
-const { fixed } = require("normalize-css/normalize");
-
 /*
   use:
     const wc = new Webcam({
