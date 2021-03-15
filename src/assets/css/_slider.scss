@@ -1,0 +1,36 @@
+.slider {
+  position:fixed;
+  left:50%;
+  transform:translateX(-50%);
+  width:300px;
+  height:10px;
+  background:rgba(white, .4);
+  z-index:999;
+  bottom:60px;
+  border-radius:3px;
+  position:relative;
+
+  &::after {
+    content:'';
+    position:absolute;
+    height:6px;
+    width:2px;
+    left:50%;
+    top:2px;
+    transform:translateX(-50%);
+    background:rgba(white, .6);;
+  }
+
+  .slider-circle {
+    box-sizing:border-box;
+    position: absolute;
+    z-index:9999;
+    width:20px;
+    height:20px;
+    background:white;
+    border-radius:10px;
+    top:-5px;
+    left:140px;
+    transition: transform 1s ease;
+    box-shadow: 0 0 10px rgba(black, .5);  }
+}

@@ -1,7 +1,13 @@
 .controls {
   position:fixed;
-  top:40px;
-  left:40px;
+  top:0;
+  left:0;
+  opacity:0;
+  padding:40px;
+
+  &:hover {
+    opacity:1;
+  }
 
   button {
     background-color: #fefefe;

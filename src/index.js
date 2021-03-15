@@ -4,7 +4,7 @@ import './index.scss'
 var $ = require("jquery");
 
 // Vars
-const slidePadding = 3; // The number of clones on each side
+const slidePadding = 1; // The number of clones on each side
 var containerWidth, slideWidth, windowWidth, startPosition, endPosition, scrollPosition, relScrollPosition;
 var container = $('.js-container');
 var slides = container.find('.js-slide');
@@ -26,6 +26,7 @@ var isResizing = false;
 function setupAnimation() {
   updateSizes();
   scrollPosition = startPosition;
+  updateMovementSlider();
   startAnimation();
 }
 
@@ -109,8 +110,16 @@ function setTransform(el, transform) {
 $('.js-control').on('click', function () {
   scrollDirection = $(this).data('direction');
   scrollSpeed = $(this).data('speed');
+  updateMovementSlider();
   startAnimation();
 });
+
+function updateMovementSlider() {
+  var maxWidth = 150;
+  var circle = $('.js-circle');
+  var translateX = scrollSpeed * maxWidth * (scrollDirection === 'left' ? -1 : 1);
+  setTransform(circle, 'translateX(' + translateX + 'px)');
+}
 
 // Mode button listeners
 $('.js-control-mode').on('click', function () {
