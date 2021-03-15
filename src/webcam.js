@@ -73,7 +73,7 @@ class Webcam {
     this.ctx.clearRect(0,0,this.canvas.width,this.canvas.height)
     this.ctx.save();
     this.ctx.scale(-1,1);
-    this.ctx.drawImage(this.video,- this.width,0);
+    this.ctx.drawImage(this.video,- this.width,0,this.width,this.height);
     this.ctx.restore();
 
     this.frames.current = this.ctx.getImageData(0,0,this.width,this.height);
@@ -128,6 +128,17 @@ class Webcam {
   movementAt(x,y,width,height){
     return this.sectionDifference(x,y,width,height) > this.diff_to_count;
   }
+
+  averageX() {
+    if(!this.difference){return false}
+    let sum = 0;
+    let sumx = 0;
+    for(let i=0; i<this.width*this.height; i++){
+      let x = i % this.width;
+      sumx += (x - this.width/2)/(this.width/2) * this.difference[i]/255;
+    }
+    return sumx / (this.width*10)
+  }
 }
 
 //used to calculate speed at an easing (non-linear) pace
@@ -156,6 +167,16 @@ class WebcamControl {
     return new_val
   }
 
+  forceDial(value){
+    if(value < this.min_dial_value){
+      return this.min_dial_value;
+    }
+    if(value > this.max_dial_value){
+      return this.max_dial_value;
+    }
+    return value
+  }
+
   //right or left?
   get direction() {
     return this.dial_value < 0? "left" : "right";
@@ -168,7 +189,7 @@ class WebcamControl {
 }
 
 //creates html elements needed for webcam
-function initialiseElements(show) {
+function initialiseElements(show,w,h) {
   let elems = {
     video:document.createElement("video"),
     canvas:document.createElement("canvas"),
@@ -177,8 +198,10 @@ function initialiseElements(show) {
   };
   elems.video.autoplay = true;
   elems.video.playsInline = true;
-  elems.video.width = elems.canvas.width = 500;
-  elems.video.width = elems.canvas.height = 500;
+  elems.video.width = w;
+  elems.canvas.width = w;
+  elems.video.width = h;
+  elems.canvas.height = h;
   document.body.appendChild(elems.wrapper);
   elems.wrapper.appendChild(elems.video);
   elems.wrapper.appendChild(elems.canvas);
@@ -187,7 +210,7 @@ function initialiseElements(show) {
   Object.assign(elems.wrapper.style,{
     position:"fixed",
     top:"2vh",
-    left:"30vw",
+    left:"40vw",
     opacity:"0.2"
   });
   return elems
