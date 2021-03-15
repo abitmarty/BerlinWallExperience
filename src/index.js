@@ -203,6 +203,7 @@ function handleWebCam() {
     wcControl.dial_value = wcControl.forceDial(a_x*delta);//wcControl.turnDial(mov * delta);
     scrollSpeed = wcControl.speed;
     scrollDirection = wcControl.direction;
+    updateMovementSlider()
   }
   if(showWebCamDebugInfo) {
     webcamElements.debug.innerText = `
