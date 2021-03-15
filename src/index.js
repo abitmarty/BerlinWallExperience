@@ -3,9 +3,6 @@ require('normalize-css');
 import './index.scss'
 var $ = require("jquery");
 
-// -----webcam------
-const WebCam = require("./webcam");
-
 // Vars
 const slidePadding = 3; // The number of clones on each side
 var containerWidth, slideWidth, windowWidth, startPosition, endPosition, scrollPosition, relScrollPosition;
@@ -60,9 +57,6 @@ function startAnimation() {
 
 // Update animation
 function updateAnimation() {
-
-  //------handle webcam every loop------
-  handleWebCam();
 
   if (isResizing) return;
 
@@ -162,50 +156,6 @@ function updateParallax() {
     setTransform(item, 'translateX(' + relPosition + 'px)');
   });
 }
-
-// -------------WEBCAM CONTROL-----------
-const showWebCamDebugInfo = false; //set this to true for debugging purposes
-
-const webcamElements = WebCam.initialiseElements(showWebCamDebugInfo);
-const wc = new WebCam.webcam({
-  video:webcamElements.video,
-  canvas: webcamElements.canvas,
-  width:500,
-  height:500,
-  min_diff:21,
-  diff_to_count:10,
-  displayDifference:false
-});
-
-const wcControl = new WebCam.control({
-  min_dial_value:-1,
-  max_dial_value:1,
-  plusQuadrant:[200,0,200,200],
-  minusQuadrant:[0,0,200,200]
-})
-
-
-// this is called every animation frame
-function handleWebCam() { 
-  let delta = 0.1; // constant, to be determined, how far the dial turns
-  wc.frame();
-  let mov = - wc.movementAt(...wcControl.plusQuadrant) + wc.movementAt(...wcControl.minusQuadrant);
-  if(mov) {
-    wcControl.dial_value = wcControl.turnDial(mov * delta);
-    scrollSpeed = wcControl.speed;
-    scrollDirection = wcControl.direction;
-  }
-  if(showWebCamDebugInfo) {
-    webcamElements.debug.innerText = `
-      dial_value: ${wcControl.dial_value},
-      speed: ${scrollSpeed},
-      direction: ${scrollDirection}
-    `
-  }
-}
-
-wc.init(); // initialise webcam (ask for camera permission etc)
-//---------------------------------------
 
 // Initiate the animation
 setupAnimation();
