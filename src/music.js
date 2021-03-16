@@ -4,8 +4,8 @@ var check = true;
 var safeValue = 5;
 var isFirst = true;
 var contentBlock = 0;
-import block5Audio from './assets/audio/rock.mp3';
-import block2Audio from './assets/audio/ww2.mp3';
+import rockstarAudio from './assets/audio/rock.mp3';
+import ww2Audio from './assets/audio/ww2.mp3';
 
 // Audio settings
 const AudioContext = window.AudioContext || window.webkitAudioContext;
@@ -18,8 +18,8 @@ var panner = new StereoPannerNode(audioCtx, pannerOptions);
 // Simply import the audio and put them in the targetedBlocks array (make sure there is at least 2 free spaces between audio files)
 var targetedBlocks = [];
 var lastTargetedBlock = 1000;
-targetedBlocks.key2 = block2Audio;
-targetedBlocks.key5 = block5Audio;
+targetedBlocks.key2 = rockstarAudio;
+targetedBlocks.key6 = ww2Audio;
 
 // Var
 var audioSource;
@@ -83,8 +83,10 @@ function playAudio(slideWidth){
         }
     } else {
         // Reset to start of audio
-        audioSource.pause();
-        audioSource.currentTime = 0;
+        if (audioSource != null){
+            audioSource.pause();
+            audioSource.currentTime = 0;
+        }
     }
 }
 
