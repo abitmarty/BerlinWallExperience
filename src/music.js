@@ -4,6 +4,7 @@ var check = true;
 var safeValue = 5;
 var isFirst = true;
 var contentBlock = 0;
+var fade = 0;
 import rockstarAudio from './assets/audio/rock.mp3';
 import ww2Audio from './assets/audio/ww2.mp3';
 
@@ -32,9 +33,18 @@ export function playMusic(pos, slideWidth, scrollDirection, slidePadding, mode){
     setCenterBlock(pos, slideWidth, scrollDirection, posTry, positionTry);
     setBlockContent(slidePadding);
     if (mode != 'floating'){
+        if (fade >= 0 && fade < 100){
+            fade++;
+        }
         playAudio(slideWidth);
     } else {
-        stopAudio();
+        if (fade > 0 && fade <= 100){
+            fade--;
+            playAudio(slideWidth);
+        }else {
+            stopAudio();
+            fade = 0;
+        }
     }
 }
 
@@ -52,35 +62,33 @@ function playAudio(slideWidth){
     if (targetedBlocks.hasOwnProperty("key" + contentBlock)){
         targetedContentBlock = contentBlock;
         setAudioSource(targetedContentBlock);
-        //console.log("were in sound block");
     } else if (targetedBlocks.hasOwnProperty("key" + (contentBlock + 1))){
         targetedContentBlock = contentBlock + 1;
         setAudioSource(targetedContentBlock);
-        //console.log("were before sound block");
     } else if (targetedBlocks.hasOwnProperty("key" + (contentBlock - 1))){
         targetedContentBlock = contentBlock - 1;
         setAudioSource(targetedContentBlock);
-        //console.log("were after sound block");
     }else {
+        // Unreal value
         targetedContentBlock = 1000;
     }
 
     // The block before the targeted block
     if(contentBlock == (targetedContentBlock - 1)){
-        gainNode.gain.value = gainBuildUp;
+        gainNode.gain.value = gainBuildUp * (fade/100);
         panner.pan.value = gainBuildDown;
         if(audioSource.paused){
             // Play audio after interaction with DOM
             audioSource.play().catch(function(error) { });
         }
     } else if(contentBlock == targetedContentBlock){
-        gainNode.gain.value = 1;
+        gainNode.gain.value = 1 * (fade/100);
         panner.pan.value = 0;
         if(audioSource.paused){
             audioSource.play().catch(function(error) { });
         }
     } else if(contentBlock == (targetedContentBlock + 1)){
-        gainNode.gain.value = gainBuildDown;
+        gainNode.gain.value = gainBuildDown * (fade/100);
         panner.pan.value = 0 - gainBuildUp;
         if(audioSource.paused){
             audioSource.play().catch(function(error) { });
@@ -91,6 +99,7 @@ function playAudio(slideWidth){
     }
 }
 
+// it currently starts over. We might want to change that?
 function stopAudio(){
     if (audioSource != null){
         audioSource.pause();
