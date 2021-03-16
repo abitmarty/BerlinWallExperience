@@ -25,13 +25,17 @@ targetedBlocks.key6 = ww2Audio;
 var audioSource;
 var positionTry = 0;
 
-export function playMusic(pos, slideWidth, scrollDirection, slidePadding){
+export function playMusic(pos, slideWidth, scrollDirection, slidePadding, mode){
     // - half the window size to get the center of the screen
     var posTry = pos - ($(window).width()/2);
     positionTry = (Math.round((Math.abs(posTry))) % slideWidth);
     setCenterBlock(pos, slideWidth, scrollDirection, posTry, positionTry);
     setBlockContent(slidePadding);
-    playAudio(slideWidth);
+    if (mode != 'floating'){
+        playAudio(slideWidth);
+    } else {
+        stopAudio();
+    }
 }
 
 function playAudio(slideWidth){
@@ -83,10 +87,14 @@ function playAudio(slideWidth){
         }
     } else {
         // Reset to start of audio
-        if (audioSource != null){
-            audioSource.pause();
-            audioSource.currentTime = 0;
-        }
+        stopAudio();
+    }
+}
+
+function stopAudio(){
+    if (audioSource != null){
+        audioSource.pause();
+        audioSource.currentTime = 0;
     }
 }
 

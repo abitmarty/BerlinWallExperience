@@ -63,7 +63,7 @@ function updateAnimation() {
 
   // MARTY:
   var pos = Math.abs(scrollPosition);
-  playMusic(scrollPosition, slideWidth, scrollDirection, slidePadding);
+  playMusic(scrollPosition, slideWidth, scrollDirection, slidePadding, mode);
   // if (pos % slideWidth === 0) {
   //   var blockNumber = pos / slideWidth + (scrollDirection === 'right' ? 1 : 0);
   //   console.log('We are entering block ' + blockNumber);
