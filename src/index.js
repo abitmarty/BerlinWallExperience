@@ -18,7 +18,6 @@ var defaultScrollSpeed = .15;
 
 var scrollDirection = 'right'; // Default direction
 var scrollSpeed = defaultScrollSpeed;
-; // Default speed
 var mode = 'floating'; // Default mode
 
 // Resize helpers
@@ -43,7 +42,7 @@ function updateSizes(setPosition = false) {
   containerWidth = Math.ceil(container.outerWidth());
   slideWidth = Math.ceil(slides.first().outerWidth());
   windowWidth = Math.ceil(window.innerWidth);
-  startPosition = slideWidth * -slidePadding;
+  startPosition = -Math.floor(Math.random() * containerWidth);
   endPosition = -(containerWidth - slideWidth * slidePadding - windowWidth);
 
   // Update current scroll position
@@ -64,8 +63,10 @@ function updateAnimation() {
 
   if (isResizing) return;
 
-  //------handle webcam every loop------
-  handleWebCam();
+  // Handle webcam every move
+  if (mode === 'interactive') {
+    handleWebCam();
+  }
 
   // MARTY:
   var pos = Math.abs(scrollPosition);
@@ -138,6 +139,7 @@ $('.js-control-mode').on('click', function () {
   } else if (newMode === 'interactive') {
     target.removeClass('is-floating-mode').addClass('is-interactive-mode');
   }
+  updateMovementSlider();
   mode = newMode;
 });
 
@@ -219,5 +221,11 @@ function handleWebCam() {
 wc.init(); // initialise webcam (ask for camera permission etc)
 //---------------------------------------
 
-// Initiate the animation
-setupAnimation();
+
+$(window).on('load', function () {
+  // Initiate the animation
+  setupAnimation();
+
+  // Remove loading screen
+  $('body').addClass('is-ready');
+});

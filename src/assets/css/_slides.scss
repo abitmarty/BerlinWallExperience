@@ -8,6 +8,7 @@
     float:left;
     width:$slideWidth;
     height:100vh;
+    color: transparent; // Hide slide numbers
 
     background-size: 100% 100%;
 
@@ -17,15 +18,15 @@
       }
     }
 
-    &::after {
-      content:'';
-      display:block;
-      position:absolute;
-      margin:2%;
-      width:96%;
-      height:96%;
-      border:2px solid #ccc;
-    }
+    // &::after {
+    //   content:'';
+    //   display:block;
+    //   position:absolute;
+    //   margin:2%;
+    //   width:96%;
+    //   height:96%;
+    //   border:2px solid #ccc;
+    // }
     
     display:flex;
     align-items:center;
