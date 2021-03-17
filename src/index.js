@@ -3,6 +3,9 @@ require('normalize-css');
 import './index.scss'
 var $ = require("jquery");
 
+// -----webcam------
+const WebCam = require("./webcam");
+
 // Vars
 const slidePadding = 1; // The number of clones on each side
 var containerWidth, slideWidth, windowWidth, startPosition, endPosition, scrollPosition, relScrollPosition;
@@ -60,6 +63,9 @@ function startAnimation() {
 function updateAnimation() {
 
   if (isResizing) return;
+
+  //------handle webcam every loop------
+  handleWebCam();
 
   // MARTY:
   var pos = Math.abs(scrollPosition);
@@ -165,6 +171,53 @@ function updateParallax() {
     setTransform(item, 'translateX(' + relPosition + 'px)');
   });
 }
+
+// -------------WEBCAM CONTROL-----------
+const showWebCamDebugInfo = false; //set this to true for debugging purposes
+
+const webcamElements = WebCam.initialiseElements(showWebCamDebugInfo,100,100);//initialise the video & canvas size, tho this probs doesn't do much
+const wc = new WebCam.webcam({
+  video:webcamElements.video,
+  canvas: webcamElements.canvas,
+  width:100,
+  height:100,
+  min_diff:10,
+  diff_to_count:5,
+  displayDifference:false
+});
+
+const wcControl = new WebCam.control({
+  min_dial_value:-1,
+  max_dial_value:1,
+  plusQuadrant:[60,0,40,40],
+  minusQuadrant:[0,0,40,40]
+})
+
+// this is called every animation frame
+function handleWebCam() { 
+  let delta = 4; // constant, to be determined, how far the dial turns
+  wc.frame();
+  let a_x = wc.averageX();
+  let mov = wc.movementAt(0,0,100,100)
+  if(mov) {
+    wcControl.dial_value = wcControl.forceDial(a_x*delta);//wcControl.turnDial(mov * delta);
+    scrollSpeed = wcControl.speed;
+    scrollDirection = wcControl.direction;
+    updateMovementSlider()
+  }
+  if(showWebCamDebugInfo) {
+    webcamElements.debug.innerText = `
+      dial_value: ${wcControl.dial_value},
+      speed: ${scrollSpeed},
+      direction: ${scrollDirection}
+      sumx: ${a_x}
+    `
+  }
+}
+
+
+wc.init(); // initialise webcam (ask for camera permission etc)
+//---------------------------------------
 
 // Initiate the animation
 setupAnimation();
