@@ -1,5 +1,6 @@
 // Imports
 require('normalize-css');
+import { playMusic } from './music.js'
 import './index.scss'
 var $ = require("jquery");
 
@@ -70,10 +71,11 @@ function updateAnimation() {
 
   // MARTY:
   var pos = Math.abs(scrollPosition);
-  if (pos % slideWidth === 0) {
-    var blockNumber = pos / slideWidth + (scrollDirection === 'right' ? 1 : 0);
-    console.log('We are entering block ' + blockNumber);
-  }
+  playMusic(scrollPosition, slideWidth, scrollDirection, slidePadding, mode);
+  // if (pos % slideWidth === 0) {
+  //   var blockNumber = pos / slideWidth + (scrollDirection === 'right' ? 1 : 0);
+  //   console.log('We are entering block ' + blockNumber);
+  // }
 
   var minStepSize = .5;
   var maxStepSize = 3;
