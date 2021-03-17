@@ -30,10 +30,12 @@ class Webcam {
     this.min_diff = min_diff
     this.stream = false;
     this.displayDifference = displayDifference;
-    this.diff_to_count = diff_to_count
+    this.diff_to_count = diff_to_count;
+    this.useBackground = false;
     this.frames = {
       current:false,
-      last:false
+      last:false,
+      background: false
     }
 
     this.difference = false;
@@ -87,13 +89,17 @@ class Webcam {
     this.frames.last = this.frames.current;
   }
 
+  setBackground () {
+    this.frames.background = this.frames.current;
+  }
+
   threshold (value) {
     return value > this.min_diff? 255 : 0
   }
 
   getBlendedData() {
     let data1 = this.frames.current.data;
-    let data2 = this.frames.last.data;
+    let data2 = (this.useBackground && this.frames.background)? this.frames.background.data : this.frames.last.data;
     let blend = this.ctx.createImageData(this.width,this.height);
     this.difference = [];
     let target = blend.data;
@@ -129,15 +135,16 @@ class Webcam {
     return this.sectionDifference(x,y,width,height) > this.diff_to_count;
   }
 
-  averageX() {
+  averageX(d,dx) {
     if(!this.difference){return false}
     let sum = 0;
     let sumx = 0;
     for(let i=0; i<this.width*this.height; i++){
       let x = i % this.width;
-      sumx += (x - this.width/2)/(this.width/2) * this.difference[i]/255;
+      sumx += dx * (x - this.width/2)/(this.width/2) * this.difference[i]/255;
+      sum += d * this.difference[i]/255;
     }
-    return sumx / (this.width*10)
+    return {averagex:sumx / (this.width * this.height), average:sum / (this.width * this.height)}
   }
 }
 
@@ -211,7 +218,7 @@ function initialiseElements(show,w,h) {
     position:"fixed",
     top:"2vh",
     left:"40vw",
-    opacity:"0.2"
+    opacity:"1"
   });
   return elems
 }
