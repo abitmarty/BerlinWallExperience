@@ -69,13 +69,9 @@ function updateAnimation() {
     handleWebCam();
   }
 
-  // MARTY:
+  // Music
   var pos = Math.abs(scrollPosition);
   playMusic(scrollPosition, slideWidth, scrollDirection, slidePadding, mode);
-  // if (pos % slideWidth === 0) {
-  //   var blockNumber = pos / slideWidth + (scrollDirection === 'right' ? 1 : 0);
-  //   console.log('We are entering block ' + blockNumber);
-  // }
 
   var minStepSize = .5;
   var maxStepSize = 3;

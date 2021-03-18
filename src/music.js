@@ -1,3 +1,6 @@
+// Import jQuery
+var $ = require("jquery");
+
 // Var
 var blockCenter = 0;
 var check = true;
