@@ -32,7 +32,7 @@ module.exports = {
         ]
       },
       {
-        test: /\.html$/,
+        test: /\.html/,
         use: [
           {
             loader: 'html-loader'
@@ -41,23 +41,24 @@ module.exports = {
       },
       {
         test: /\.(png|svg|jpg|jpeg|gif)$/i,
-        type: 'asset/resource'
+        type: 'asset/resource',
+        generator: {
+          filename: 'image/[name][ext][query]'
+        }
       },
       {
-        test: /\.mp3$/,
-        use: [
-          {
-            loader: 'file-loader'
-          }
-        ]
+        test: /\.(mov|mp4)$/i,
+        type: 'asset/resource',
+        generator: {
+          filename: 'video/[name][ext][query]'
+        }
       },
       {
-        test: /\.wav$/,
-        use: [
-          {
-            loader: 'file-loader'
-          }
-        ]
+        test: /\.(mp3|wav)$/,
+        type: 'asset/resource',
+        generator: {
+          filename: 'audio/[name][ext][query]'
+        }
       }
     ]
   },

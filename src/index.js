@@ -1,8 +1,11 @@
 // Imports
 require('normalize-css');
+var $ = require("jquery");
 import { playMusic } from './music.js'
 import './index.scss'
-var $ = require("jquery");
+
+// Import videos
+import video1 from './assets/video/placeholder-video.mp4';
 
 // -----webcam------
 const WebCam = require("./webcam");
@@ -15,7 +18,7 @@ var slides = container.find('.js-slide');
 var originalSlides = container.find('.js-slide:not(.clone)');
 var slideItems = $('.js-slide-item');
 var isAnimating = false;
-var defaultScrollSpeed = .15;
+var defaultScrollSpeed = 0;
 
 var scrollDirection = 'right'; // Default direction
 var scrollSpeed = defaultScrollSpeed;
