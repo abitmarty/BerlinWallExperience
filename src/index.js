@@ -18,7 +18,7 @@ var slides = container.find('.js-slide');
 var originalSlides = container.find('.js-slide:not(.clone)');
 var slideItems = $('.js-slide-item');
 var isAnimating = false;
-var defaultScrollSpeed = 0;
+var defaultScrollSpeed = .15;
 
 var scrollDirection = 'right'; // Default direction
 var scrollSpeed = defaultScrollSpeed;
