@@ -46,7 +46,7 @@ function updateSizes(setPosition = false) {
   containerWidth = Math.ceil(container.outerWidth());
   slideWidth = Math.ceil(slides.first().outerWidth());
   windowWidth = Math.ceil(window.innerWidth);
-  startPosition = -Math.floor(Math.random() * containerWidth);
+  startPosition = -Math.floor(Math.random() * (containerWidth - slideWidth * slidePadding));
   endPosition = -(containerWidth - slideWidth * slidePadding - windowWidth);
 
   // Update current scroll position
