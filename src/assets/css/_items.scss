@@ -1,5 +1,5 @@
 $imageHeight: 1000;
-$imageWidth: 2000;
+$imageWidth: 3000;
 
 @function relY($heightPx) {
   @return ($heightPx / $imageHeight * 100) + 0vh;
@@ -18,8 +18,8 @@ $imageWidth: 2000;
   left:relX($left);
 }
 
-@mixin image-sizing($width) {
-  height:relY($width);
+@mixin image-sizing($height) {
+  height:relY($height);
 }
 
 @mixin text-sizing($font-size, $width) {
@@ -30,9 +30,9 @@ $imageWidth: 2000;
   line-height:1.5;
 }
 
-@mixin video-sizing($width) {
-  height:relY($width);
-  width:relVideoWidth($width);
+@mixin video-sizing($height) {
+  height:relY($height);
+  width:relVideoWidth($height);
 }
 
 .slide-item {
