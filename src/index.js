@@ -6,9 +6,9 @@ import './index.scss'
 
 // Import videos
 import video1 from './assets/video/placeholder-video.mp4';
-import video2 from './assets/video/berlin-wall-1974.mp4';
+import video2 from './assets/video/berlin-wall-1974-loop.mp4';
 import video3 from './assets/video/berlin-wall-animations.mp4';
-import video4 from './assets/video/fall-of-the-wall.mp4';
+import video4 from './assets/video/fall-of-the-wall-loop.mp4';
 import video5 from './assets/video/ich-bin-ein-berliner.mp4';
 
 // -----webcam------
