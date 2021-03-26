@@ -47,6 +47,13 @@ module.exports = {
         }
       },
       {
+        test: /\.(otf)$/i,
+        type: 'asset/resource',
+        generator: {
+          filename: 'fonts/[name][ext][query]'
+        }
+      },
+      {
         test: /\.(mov|mp4)$/i,
         type: 'asset/resource',
         generator: {

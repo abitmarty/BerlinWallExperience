@@ -10,10 +10,12 @@ var contentBlock = 0;
 var fade = 0;
 
 // Audio files
-import rockstarAudio from './assets/audio/rock.mp3';
-import ww2Audio from './assets/audio/ww2.mp3';
-import riseAndFallOfBerlinWall from './assets/audio/rise_and_fall_of_the_german_wall.mp3';
-import abcNews from './assets/audio/abc_news_liberation.mp3';
+import bowie from './assets/audio/david-bowie-helden.mp3'
+import dakota from './assets/audio/dakota-sound.mp3'
+import trabant from './assets/audio/trabant-sound-final.mp3'
+import voice1 from './assets/audio/voice-over-1.mp3'
+import voice2 from './assets/audio/voice-over-2.mp3'
+import voice3 from './assets/audio/voice-1961.mp3'
 
 // Audio settings
 const AudioContext = window.AudioContext || window.webkitAudioContext;
@@ -26,10 +28,10 @@ var panner = new StereoPannerNode(audioCtx, pannerOptions);
 // Simply import the audio and put them in the targetedBlocks array (make sure there is at least 2 free spaces between audio files)
 var targetedBlocks = [];
 var lastTargetedBlock = 1000;
-targetedBlocks.key2 = abcNews;
-targetedBlocks.key5 = riseAndFallOfBerlinWall;
-targetedBlocks.key8 = ww2Audio;
-targetedBlocks.key11 = rockstarAudio;
+targetedBlocks.key3 = trabant;
+targetedBlocks.key7 = dakota;
+targetedBlocks.key11 = bowie;
+targetedBlocks.key13 = voice2;
 
 // Var
 var audioSource;

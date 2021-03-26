@@ -6,6 +6,10 @@ import './index.scss'
 
 // Import videos
 import video1 from './assets/video/placeholder-video.mp4';
+import video2 from './assets/video/berlin-wall-1974.mp4';
+import video3 from './assets/video/berlin-wall-animations.mp4';
+import video4 from './assets/video/fall-of-the-wall.mp4';
+import video5 from './assets/video/ich-bin-ein-berliner.mp4';
 
 // -----webcam------
 const WebCam = require("./webcam");
@@ -30,6 +34,15 @@ var isResizing = false;
 
 // Initial setup
 function setupAnimation() {
+
+  // Make clones
+  var firstSlide = slides.first().clone(true).addClass('clone');
+  var lastSlide = slides.last().clone(true).addClass('clone');
+  container.prepend(lastSlide);
+  container.append(firstSlide);
+  slides = container.find('.js-slide'); //refetch slides
+
+  // Calculate sizes and positions
   updateSizes();
   scrollPosition = startPosition;
   updateMovementSlider();
@@ -46,7 +59,7 @@ function updateSizes(setPosition = false) {
   containerWidth = Math.ceil(container.outerWidth());
   slideWidth = Math.ceil(slides.first().outerWidth());
   windowWidth = Math.ceil(window.innerWidth);
-  startPosition = -Math.floor(Math.random() * (containerWidth - slideWidth * slidePadding));
+  startPosition = -slideWidth; //-Math.floor(Math.random() * (containerWidth - slideWidth * slidePadding));
   endPosition = -(containerWidth - slideWidth * slidePadding - windowWidth);
 
   // Update current scroll position
@@ -69,7 +82,7 @@ function updateAnimation() {
 
   // Handle webcam every move
   if (mode === 'interactive') {
-    handleWebCam();
+    //handleWebCam();
   }
 
   // Music
@@ -170,8 +183,14 @@ function updateParallax() {
     var realOffset = offsetLeft - translate;
     var relPosition = (realOffset - centerX) * (factor - 1);
 
+    var flipCss = '';
+    var flip = $(this).data('flip');
+    if (flip && flip === scrollDirection) {
+      flipCss = 'scaleX(-1)';
+    }
+
     item.data('translate', relPosition);
-    setTransform(item, 'translateX(' + relPosition + 'px)');
+    setTransform(item, 'translateX(' + relPosition + 'px)' + flipCss);
   });
 }
 

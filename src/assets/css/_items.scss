@@ -50,6 +50,12 @@ $imageWidth: 3000;
     left:0;
     width:100%;
     height:100%;
+    box-shadow: 0 5px 30px black;
+  }
+
+  h2 {
+    font-size:1.25em;
+    margin: 0 0 .5em 0;
   }
 
   &.item {
@@ -58,51 +64,372 @@ $imageWidth: 3000;
     &-1 {
       &-1 {
         // Image
-        @include position(100, 600);
-        @include image-sizing(500);
+        @include position(271, 190);
+        @include image-sizing(458);
+      }
+
+      &-1-text {
+        // Text
+        @include position(176, 347);
+        @include text-sizing(40, 100);
       }
 
       &-2 {
+        // Image
+        @include position(602, 1359);
+        @include image-sizing(253);
+      }
+
+      &-2-text {
         // Text
-        @include position(700, 600);
-        @include text-sizing(20, 400);
+        @include position(638, 1694);
+        @include text-sizing(40, 660);
       }
 
       &-3 {
-        // Video
-        @include position(200, 100);
-        @include video-sizing(300);
+        // Image
+        @include position(108, 2475.73);
+        @include image-sizing(300);
+      }
+
+      &-3-text {
+        // Text
+        @include position(410, 2438);
+        @include text-sizing(30, 389);
       }
     }
 
     // Slide 2
     &-2 {
       &-1 {
-        top:20vh;
-        left:60%;
-        height:30vh;
+        // Image
+        @include position(482, 218);
+        @include image-sizing(360);
+      }
+
+      &-1-text {
+        // Text
+        @include position(872,271);
+        @include text-sizing(25, 670);
+      }
+
+      &-2 {
+        // Image
+        @include position(120,2165);
+        @include image-sizing(530);
+      }
+
+      &-2-text {
+        // Text
+        @include position(610,2167);
+        @include text-sizing(40, 600);
+
+        .text-wrapper {
+          transform:rotate(7deg);
+        }
       }
     }
 
     // Slide 3
     &-3 {
       &-1 {
-        top:10%;
-        right:20%;
-        left:auto;
-        height:60vh;
+        // Image
+        @include position(350,1087);
+        @include image-sizing(720);
+      }
+
+      &-2 {
+        // Video
+        @include position(96,1370);
+        @include video-sizing(460);
+
+        video {
+          transform:rotate(-4deg);
+        }
+      }
+
+      &-3 {
+        // Image
+        @include position(600,2455);
+        @include image-sizing(220);
+      }
+
+      &-3-text {
+        @include position(825,2406);
+        @include text-sizing(40, 428);
+
+        .text-wrapper {
+          transform:rotate(5deg);
+        }
       }
     }
 
     // Slide 4
     &-4 {
       &-1 {
-        top:auto;
-        bottom:15%;
-        left:10%;
-        height:40vh;
+        // Image
+        @include position(361,422);
+        @include image-sizing(473);
+      }
+
+      &-1-text {
+        // Text
+        @include position(850,440);
+        @include text-sizing(40, 1000);
+      }
+
+      &-2 {
+        // Image
+        @include position(70,2180);
+        @include image-sizing(530);
+      }
+
+      &-2-text {
+        // Text
+        @include position(612,2167);
+        @include text-sizing(40, 670);
+
+        .text-wrapper {
+          transform:rotate(4deg);
+        }
       }
     }
+
+    // Slide 5
+    &-5 {
+      &-1 {
+        // Image
+        @include position(329,600);
+        @include image-sizing(335);
+      }
+
+      &-1-text {
+        // Text
+        @include position(650,679);
+        @include text-sizing(30, 400);
+
+        .text-wrapper {
+          transform:rotate(-10deg);
+        }
+      }
+    }
+
+    // Slide 6
+    &-6 {
+      &-1 {
+        // Video
+        @include position(220,205);
+        @include video-sizing(565);
+
+        video {
+          transform:rotate(-6deg);
+        }
+      }
+    }
+
+    // Slide 7
+    &-7 {
+      &-1 {
+        // Image
+        @include position(43,88);
+        @include image-sizing(335);
+      }
+
+      &-2 {
+        // Image
+        @include position(329,648);
+        @include image-sizing(335);
+      }
+
+      &-2-text {
+        // Text
+        @include position(690,650);
+        @include text-sizing(26, 560);
+      }
+    }
+
+    // Slide 8
+    &-8 {
+      &-1 {
+        // Image
+        @include position(320,270);
+        @include image-sizing(350);
+      }
+
+      &-1-text {
+        // Text
+        @include position(650,375);
+        @include text-sizing(26, 490);
+
+        .text-wrapper {
+          transform: rotate(-7deg);
+        }
+      }
+
+      &-2-text {
+        // Text
+        @include position(300,1628);
+        @include text-sizing(30, 868);
+      }
+    }
+
+    // Slide 9
+    &-9 {
+      &-1 {
+        // Image
+        @include position(352,76);
+        @include image-sizing(289);
+      }
+
+      &-2 {
+        // Image
+        @include position(236,400);
+        @include video-sizing(365);
+        z-index:10;
+
+        video {
+          transform:rotate(5deg);
+        }
+      }
+
+      &-1-text {
+        // Text
+        @include position(685,264);
+        @include text-sizing(40, 500);
+
+        .text-wrapper {
+          transform:rotate(-4deg);
+        }
+      }
+
+      &-3-text {
+        // Text
+        @include position(868,2438);
+        @include text-sizing(20, 460);
+      }
+
+    }
+
+    // Slide 10
+    &-10 {
+      &-1 {
+        // Image
+        @include position(202,1246);
+        @include image-sizing(550);
+      }
+
+      &-1-text {
+        // Text
+        @include position(339,2189);
+        @include text-sizing(30, 499);
+
+        .text-wrapper {
+          transform:rotate(4deg);
+        }
+      }
+
+    }
+
+    // Slide 11
+    &-11 {
+      &-1 {
+        // Image
+        @include position(316,462);
+        @include image-sizing(362);
+      }
+
+      &-1-text {
+        // Text
+        @include position(650,510);
+        @include text-sizing(26, 680);
+
+        .text-wrapper {
+          transform:rotate(-5deg);
+        }
+      }
+
+      &-2 {
+        // Image
+        @include position(209,1208);
+        @include image-sizing(228);
+      }
+
+      &-3 {
+        // Image
+        @include position(436,1305);
+        @include image-sizing(191);
+      }
+
+      &-3-text {
+        // Text
+        @include position(636,144);
+        @include text-sizing(20, 340);
+      }
+
+    }
+
+    // Slide 12
+    &-12 {
+      &-1 {
+        // Image
+        @include position(130,1100);
+        @include image-sizing(550);
+      }
+
+      &-1-text {
+        // Text
+        @include position(685,1140);
+        @include text-sizing(40, 660);
+
+        .text-wrapper {
+          transform:rotate(-4deg);
+        }
+      }
+
+    }
+
+
+    // Slide 13
+    &-13 {
+      &-1-text {
+        // Text
+        @include position(767,1352);
+        @include text-sizing(40, 800);
+      }
+
+    }
+
+    // Slide 14
+    &-14 {
+      &-1-text {
+        // Text
+        @include position(659,1215);
+        @include text-sizing(40, 850);
+      }
+
+      &-2 {
+        // Video
+        @include position(159,2269);
+        @include video-sizing(450);
+
+        video {
+          transform:rotate(8deg);
+        }
+      }
+
+      &-2-text {
+        // Text
+        @include position(600,2340);
+        @include text-sizing(40, 285);
+
+        .text-wrapper {
+          transform:rotate(8deg);
+        }
+      }
+
+    }
+
+
   }
   
 }
