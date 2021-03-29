@@ -25,13 +25,14 @@ var pannerOptions = {pan: 0};
 var panner = new StereoPannerNode(audioCtx, pannerOptions);
 
 // Sound blocks 
-// Simply import the audio and put them in the targetedBlocks array (make sure there is at least 2 free spaces between audio files)
+// In html add js-sound to the parent div
+// Class name of child image == imported audio file name
+// Place them in the array below (trabelant as example)
 var targetedBlocks = [];
 var lastTargetedBlock = "";
 targetedBlocks.trabant = trabant;
-//targetedBlocks.key7 = dakota;
-//targetedBlocks.key11 = bowie;
-//targetedBlocks.key13 = voice2;
+targetedBlocks.dakota = dakota;
+
 
 // Var
 var audioSource;
@@ -87,7 +88,7 @@ function fadeSound($video, turnSoundOn) {
 }
 
 export function playMusic(pos, slideWidth, scrollDirection, slidePadding, mode){
-    // - half the window size to get the center of the screen
+    // Ez fade
     if (mode != 'floating'){
         if (fade >= 0 && fade < 100){
             fade++;
@@ -102,18 +103,21 @@ export function playMusic(pos, slideWidth, scrollDirection, slidePadding, mode){
             fade = 0;
         }
     }
-    //playAudioImage()
+    // fade = 100;
+    // playAudioImage()
 }
 
 function playAudioImage() {
     $('.js-sound').each(function () {
-        var posLeft = $($('.js-sound')).offset().left;
-        var itemWidth = $($('.js-sound')).outerWidth();
+        var posLeft = $(this).offset().left;
+        var itemWidth = $(this).outerWidth();
         var soundSource = $(this).find('img');
         if (posLeft < $(window).width() && posLeft+itemWidth > 0) {
             playAudio(posLeft, itemWidth, soundSource);
         } else {
-            stopAudio();
+            // If paused
+            //stopAudio();
+            // TODO: Stop audio here
         }
     });
 }
@@ -140,7 +144,6 @@ function playAudio(posLeft, itemWidth, soundSource){
         setAudioSource(soundSource);
     }
     if(audioSource.paused){
-        //console.log(audioSource.paused);
         audioSource.play().catch(function(error) { });
     }
 }
