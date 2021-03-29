@@ -1,7 +1,7 @@
 // Imports
 require('normalize-css');
 var $ = require("jquery");
-import { playMusic } from './music.js'
+import { playMusic, updateVideo } from './music.js'
 import './index.scss'
 
 // Import videos
@@ -55,11 +55,11 @@ function updateSizes(setPosition = false) {
   var oldScrollPosition = scrollPosition;
   var oldContainerWidth = containerWidth;
 
-  // Calculate new positions
+  // Calculate new position
   containerWidth = Math.ceil(container.outerWidth());
   slideWidth = Math.ceil(slides.first().outerWidth());
   windowWidth = Math.ceil(window.innerWidth);
-  startPosition = -Math.floor(Math.random() * (containerWidth - slideWidth * slidePadding));
+  startPosition = -slideWidth*2.7; //-Math.floor(Math.random() * (containerWidth - slideWidth * slidePadding));
   endPosition = -(containerWidth - slideWidth * slidePadding - windowWidth);
 
   // Update current scroll position
@@ -115,6 +115,7 @@ function updateAnimation() {
     requestAnimationFrame(function () {
       setTransform(container, 'translateX(' + scrollPosition + 'px)');
       updateParallax();
+      updateVideo(windowWidth);
       updateAnimation();
     });
   } else {

@@ -37,26 +37,75 @@ targetedBlocks.key13 = voice2;
 var audioSource;
 var positionTry = 0;
 
+export function updateVideo(windowWidth) {
+    $('.js-video').each(function () {
+        var posLeft = $(this).offset().left;
+        var itemWidth = $(this).outerWidth();
+        var $video = $(this).find('video');
+        var isPlaying = $video.data('isPlaying') ?? false;
+        if (posLeft < windowWidth && posLeft+itemWidth > 0) {
+            // VIDEO IS IN SCREEN
+            if (!isPlaying) {
+                fadeSound($video, true);
+                $video.data('isPlaying', true);
+            }
+        } else {
+            // VIDEO IS OUT OF SCREEN
+            if (isPlaying) {
+                fadeSound($video, false);
+                $video.data('isPlaying', false);
+            }
+        }
+    });
+}
+
+function fadeSound($video, turnSoundOn) {
+    var isFading = $video.data('isFading');
+    if (isFading) return;
+
+    $video.prop('volume', turnSoundOn ? 0 : 1);
+    $video.data('isFading', true);
+
+    var fadeAudio = setInterval(function () {
+        
+        var currentVolume = $video.prop('volume');
+        var newVolume = turnSoundOn ? Math.min(1, currentVolume + .05) : Math.max(0, currentVolume - .05);
+
+        // Only fade if past the fade out point or not at zero already
+        if ((newVolume > 0 && newVolume < 1)) {
+            $video.prop('muted', false);
+            $video.prop('volume', newVolume);
+        } else if (newVolume === 1) {
+            clearInterval(fadeAudio);
+            $video.data('isFading', false);
+        } else {
+            $video.prop('muted', true);
+            clearInterval(fadeAudio);
+            $video.data('isFading', false);
+        }
+    }, 125);
+}
+
 export function playMusic(pos, slideWidth, scrollDirection, slidePadding, mode){
     // - half the window size to get the center of the screen
-    var posTry = pos - ($(window).width()/2);
-    positionTry = (Math.round((Math.abs(posTry))) % slideWidth);
-    setCenterBlock(pos, slideWidth, scrollDirection, posTry, positionTry);
-    setBlockContent(slidePadding);
-    if (mode != 'floating'){
-        if (fade >= 0 && fade < 100){
-            fade++;
-        }
-        playAudio(slideWidth);
-    } else {
-        if (fade > 0 && fade <= 100){
-            fade--;
-            playAudio(slideWidth);
-        }else {
-            stopAudio();
-            fade = 0;
-        }
-    }
+    // var posTry = pos - ($(window).width()/2);
+    // positionTry = (Math.round((Math.abs(posTry))) % slideWidth);
+    // setCenterBlock(pos, slideWidth, scrollDirection, posTry, positionTry);
+    // setBlockContent(slidePadding);
+    // if (mode != 'floating'){
+    //     if (fade >= 0 && fade < 100){
+    //         fade++;
+    //     }
+    //     playAudio(slideWidth);
+    // } else {
+    //     if (fade > 0 && fade <= 100){
+    //         fade--;
+    //         playAudio(slideWidth);
+    //     }else {
+    //         stopAudio();
+    //         fade = 0;
+    //     }
+    // }
 }
 
 function playAudio(slideWidth){
