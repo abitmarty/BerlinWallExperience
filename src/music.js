@@ -88,25 +88,21 @@ function fadeSound($video, turnSoundOn) {
 
 export function playMusic(pos, slideWidth, scrollDirection, slidePadding, mode){
     // - half the window size to get the center of the screen
-    // var posTry = pos - ($(window).width()/2);
-    // positionTry = (Math.round((Math.abs(posTry))) % slideWidth);
-    // setCenterBlock(pos, slideWidth, scrollDirection, posTry, positionTry);
-    // setBlockContent(slidePadding);
-    // if (mode != 'floating'){
-    //     if (fade >= 0 && fade < 100){
-    //         fade++;
-    //     }
-    //     playAudio(slideWidth);
-    // } else {
-    //     if (fade > 0 && fade <= 100){
-    //         fade--;
-    //         playAudio(slideWidth);
-    //     }else {
-    //         stopAudio();
-    //         fade = 0;
-    //     }
-    // }
-    playAudioImage();
+    if (mode != 'floating'){
+        if (fade >= 0 && fade < 100){
+            fade++;
+        }
+        playAudioImage();
+    } else {
+        if (fade > 0 && fade <= 100){
+            fade--;
+            playAudioImage();
+        }else {
+            stopAudio();
+            fade = 0;
+        }
+    }
+    //playAudioImage()
 }
 
 function playAudioImage() {
@@ -135,7 +131,7 @@ function playAudio(posLeft, itemWidth, soundSource){
     if (percentagePosition > 0.5){
         gainValue = 2 - gainValue;
     }
-    gainNode.gain.value = gainValue;
+    gainNode.gain.value = gainValue * (fade/100);
     panner.pan.value = panValue;
 
     // Set source
