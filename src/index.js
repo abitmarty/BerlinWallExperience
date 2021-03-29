@@ -59,7 +59,7 @@ function updateSizes(setPosition = false) {
   containerWidth = Math.ceil(container.outerWidth());
   slideWidth = Math.ceil(slides.first().outerWidth());
   windowWidth = Math.ceil(window.innerWidth);
-  startPosition = -slideWidth; //-Math.floor(Math.random() * (containerWidth - slideWidth * slidePadding));
+  startPosition = -Math.floor(Math.random() * (containerWidth - slideWidth * slidePadding));
   endPosition = -(containerWidth - slideWidth * slidePadding - windowWidth);
 
   // Update current scroll position
@@ -176,7 +176,10 @@ $(window).on('resize', function () {
 function updateParallax() {
   slideItems.each(function () {
     var item = $(this);
-    var factor = item.data('factor');
+    var factor = item.data('factor') ?? 1;
+
+    if (factor === 1) { return; }
+
     var centerX = windowWidth / 2;
     var translate = item.data('translate') ?? 0;
     var offsetLeft = item.offset().left;
