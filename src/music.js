@@ -60,21 +60,21 @@ export function updateVideo(windowWidth) {
 }
 
 function fadeSound($video, turnSoundOn) {
-    var isFading = $video.data('isFading');
+    var isFading = $video.data('isFading') ?? false;
     if (isFading) return;
 
-    $video.prop('volume', turnSoundOn ? 0 : 1);
+    $video.data('virtualVolume', turnSoundOn ? 0 : 1);
     $video.data('isFading', true);
 
     var fadeAudio = setInterval(function () {
         
-        var currentVolume = $video.prop('volume');
+        var currentVolume = $video.data('virtualVolume');
         var newVolume = turnSoundOn ? Math.min(1, currentVolume + .05) : Math.max(0, currentVolume - .05);
-
         // Only fade if past the fade out point or not at zero already
         if ((newVolume > 0 && newVolume < 1)) {
             $video.prop('muted', false);
             $video.prop('volume', newVolume);
+            $video.data('virtualVolume', newVolume);
         } else if (newVolume === 1) {
             clearInterval(fadeAudio);
             $video.data('isFading', false);
