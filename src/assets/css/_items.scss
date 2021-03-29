@@ -26,8 +26,9 @@ $imageWidth: 3000;
   font-size:relY($font-size);
   width:relX($width);
   color: $color-light;
-  text-shadow: 0 0 20px $color-dark;
+  text-shadow: 0 0 20px $color-dark, 0 0 20px $color-dark, 0 0 5px $color-dark;
   line-height:1.5;
+
 }
 
 @mixin video-sizing($height) {
@@ -133,9 +134,42 @@ $imageWidth: 3000;
     // Slide 3
     &-3 {
       &-1 {
-        // Image
+        // Image Trabant
         @include position(350,1087);
-        @include image-sizing(720);
+
+        img {
+           @include image-sizing(720);
+        }
+
+        &::before {
+          content:'';
+          position: absolute;
+          display:block;
+          width:relY(166);
+          height:relY(166);
+          background-image: url('./assets/img/wall-items/trabant-back-wheel.png');
+          background-repeat: no-repeat;
+          background-size:contain;
+          top: 67%;
+          left: 23.5%;
+          animation: rotateClockWise 3s linear infinite;
+          animation-play-state: paused;
+        }
+
+        &::after {
+          content:'';
+          position: absolute;
+          display:block;
+          width:relY(164);
+          height:relY(164);
+          background-image: url('./assets/img/wall-items/trabant-front-wheel.png');
+          background-repeat: no-repeat;
+          background-size:contain;
+          top: 65.5%;
+          left: 78%;
+          animation: rotateClockWise 3s linear infinite;
+          animation-play-state: paused;
+        }
       }
 
       &-2 {
@@ -448,3 +482,30 @@ $imageWidth: 3000;
 //     }
 //   }
 // }
+
+@keyframes rotateClockWise {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(359deg);
+  }
+}
+
+@keyframes rotateCounterClockWise {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(-359deg);
+  }
+}
+
+// Trabant movement
+body.is-moving {
+  .slide-item.item-3-1 {
+    &::before, &::after {
+      animation-play-state: running;
+    }
+  }
+}

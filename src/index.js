@@ -76,9 +76,18 @@ function startAnimation() {
 }
 
 // Update animation
+var cachedSpeed = scrollSpeed;
 function updateAnimation() {
 
   if (isResizing) return;
+  
+  if (scrollSpeed !== cachedSpeed) {
+    $('body').removeClass('is-moving');
+    if (scrollSpeed > 0) {
+      $('body').addClass('is-moving');
+    }
+    cachedSpeed = scrollSpeed;
+  }
 
   // Handle webcam every move
   if (mode === 'interactive') {
@@ -130,8 +139,8 @@ function setTransform(el, transform) {
 
 // Speed/direction button listeners
 $('.js-control').on('click', function () {
-  scrollDirection = $(this).data('direction');
-  scrollSpeed = $(this).data('speed');
+  scrollDirection = $(this).data('direction') ?? scrollDirection;
+  scrollSpeed = $(this).data('speed') ?? scrollSpeed;
   updateMovementSlider();
   startAnimation();
 });
