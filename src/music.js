@@ -116,9 +116,13 @@ function playAudioImage() {
         if (posLeft < $(window).width() && posLeft+itemWidth > 0) {
             playAudio(posLeft, itemWidth, soundSource);
         } else {
-            // If paused
-            //stopAudio();
-            // TODO: Stop audio here
+            // If no sound playing
+            if(audioSource != null){
+                if(gainNode.gain.value == 0 && !audioSource.paused){
+                    console.log("stop");
+                    stopAudio();
+                }
+            }
         }
     });
 }
@@ -145,6 +149,7 @@ function playAudio(posLeft, itemWidth, soundSource){
         setAudioSource(soundSource);
     }
     if(audioSource.paused){
+        console.log("play");
         audioSource.play().catch(function(error) { });
     }
 }
