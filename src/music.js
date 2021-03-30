@@ -1,16 +1,9 @@
 // Import jQuery
 var $ = require("jquery");
 
-// Var
-var blockCenter = 0;
-var check = true;
-var safeValue = 5;
-var isFirst = true;
-var contentBlock = 0;
-var fade = 0;
-
 // Audio files
 import bowie from './assets/audio/david-bowie-helden.mp3'
+import bowieNew from './assets/audio/david-bowie-helden-new.mp3'
 import dakota from './assets/audio/dakota-sound.mp3'
 import dakotaNew from './assets/audio/dakota-sound-new.mp3'
 import trabant from './assets/audio/trabant-sound-final.mp3'
@@ -33,11 +26,15 @@ var targetedBlocks = [];
 var lastTargetedBlock = "";
 targetedBlocks.trabant = trabant;
 targetedBlocks.dakota = dakotaNew;
+targetedBlocks.bowie = bowieNew;
+targetedBlocks.voice2 = voice2;
+
+var audioSrcList = [];
 
 
 // Var
 var audioSource;
-var positionTry = 0;
+var fade = 0;
 
 export function updateVideo(windowWidth) {
     $('.js-video').each(function () {
@@ -119,7 +116,6 @@ function playAudioImage() {
             // If no sound playing
             if(audioSource != null){
                 if(gainNode.gain.value == 0 && !audioSource.paused){
-                    console.log("stop");
                     stopAudio();
                 }
             }
@@ -149,7 +145,6 @@ function playAudio(posLeft, itemWidth, soundSource){
         setAudioSource(soundSource);
     }
     if(audioSource.paused){
-        console.log("play");
         audioSource.play().catch(function(error) { });
     }
 }
@@ -172,5 +167,7 @@ function setAudioSource(soundSource){
     audioSource.loop = true;
     const trackSlide2 = audioCtx.createMediaElementSource(audioSource);
     trackSlide2.connect(gainNode).connect(panner).connect(audioCtx.destination);
+        audioSrcList[soundSource[0].className] = [audioSource, panner, gainNode];
+
 }
 
