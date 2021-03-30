@@ -12,6 +12,7 @@ var fade = 0;
 // Audio files
 import bowie from './assets/audio/david-bowie-helden.mp3'
 import dakota from './assets/audio/dakota-sound.mp3'
+import dakotaNew from './assets/audio/dakota-sound-new.mp3'
 import trabant from './assets/audio/trabant-sound-final.mp3'
 import voice1 from './assets/audio/voice-over-1.mp3'
 import voice2 from './assets/audio/voice-over-2.mp3'
@@ -31,7 +32,7 @@ var panner = new StereoPannerNode(audioCtx, pannerOptions);
 var targetedBlocks = [];
 var lastTargetedBlock = "";
 targetedBlocks.trabant = trabant;
-targetedBlocks.dakota = dakota;
+targetedBlocks.dakota = dakotaNew;
 
 
 // Var
