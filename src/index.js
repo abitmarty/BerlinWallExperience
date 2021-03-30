@@ -1,7 +1,7 @@
 // Imports
 require('normalize-css');
 var $ = require("jquery");
-import { playMusic, updateVideo } from './music.js'
+import { updateMusic, updateVideo } from './music.js'
 import './index.scss'
 
 // Import videos
@@ -97,7 +97,7 @@ function updateAnimation() {
 
   // Music
   var pos = Math.abs(scrollPosition);
-  playMusic(scrollPosition, slideWidth, scrollDirection, slidePadding, mode);
+  updateMusic(scrollPosition, slideWidth, scrollDirection, slidePadding, mode);
 
   var minStepSize = .5;
   var maxStepSize = 3;

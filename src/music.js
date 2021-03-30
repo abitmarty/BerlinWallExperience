@@ -94,7 +94,7 @@ function fadeSound($video, turnSoundOn) {
     }, 125);
 }
 
-export function playMusic(pos, slideWidth, scrollDirection, slidePadding, mode){
+export function updateMusic(pos, slideWidth, scrollDirection, slidePadding, mode){
     // Ez fade on mode change
     if (mode != 'floating'){
         if (fade >= 0 && fade < 100){
