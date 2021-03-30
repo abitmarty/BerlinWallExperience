@@ -28,6 +28,8 @@ var scrollDirection = 'right'; // Default direction
 var scrollSpeed = defaultScrollSpeed;
 var mode = 'floating'; // Default mode
 
+var isDebug = location.hash === '#debug';
+
 // Resize helpers
 var resizeEvent;
 var isResizing = false;
@@ -41,6 +43,10 @@ function setupAnimation() {
   container.prepend(lastSlide);
   container.append(firstSlide);
   slides = container.find('.js-slide'); //refetch slides
+
+  if (!isDebug) {
+    $('.js-controls').hide();
+  }
 
   // Calculate sizes and positions
   updateSizes();
@@ -91,14 +97,15 @@ function updateAnimation() {
   }
 
   // Handle webcam every move
-  if (mode === 'interactive') {
-    //handleWebCam();
+  if (mode === 'interactive' && !isDebug) {
+    handleWebCam();
   }
 
   // Music
   var pos = Math.abs(scrollPosition);
   updateMusic(scrollPosition, slideWidth, scrollDirection, slidePadding, mode);
 
+  // Calculate movement
   var minStepSize = .5;
   var maxStepSize = 3;
   var stepSize = (scrollSpeed * (maxStepSize - minStepSize));
@@ -146,6 +153,17 @@ $('.js-control').on('click', function () {
   startAnimation();
 });
 
+// Control the mode via space bar
+$(document).on('keyup', function (e) {
+  if (!isDebug && e.keyCode === 32) {
+    mode = mode === 'floating' ? 'interactive' : 'floating';
+    scrollSpeed = defaultScrollSpeed;
+    updateMovementSlider();
+    startAnimation();
+  }
+});
+
+// Update movement slider
 function updateMovementSlider() {
   var maxWidth = 150;
   var circle = $('.js-circle');
@@ -207,7 +225,6 @@ function updateParallax() {
     setTransform(item, 'translateX(' + relPosition + 'px)' + flipCss);
   });
 }
-
 // -------------WEBCAM CONTROL-----------
 const showWebCamDebugInfo = false; //set this to true for debugging purposes
 
