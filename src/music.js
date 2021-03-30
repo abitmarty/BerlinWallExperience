@@ -142,14 +142,11 @@ function playAudio(posLeft, itemWidth, soundSource){
 
     // Set source
     if (!(soundSource[0].className in audioSrcList)){
-        console.log("add to");
         lastTargetedBlock = soundSource[0].className;
         setAudioSource(soundSource);
-        console.log(audioSrcList[soundSource[0].className][0]);
     }
     // Play sounds
     if(audioSrcList[soundSource[0].className][0] != null && audioSrcList[soundSource[0].className][0].paused){
-        console.log("Play: " + soundSource[0].className);
         audioSrcList[soundSource[0].className][0].play().catch(function(error) { });
     }
     // Set volume and panning
