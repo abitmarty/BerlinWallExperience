@@ -111,12 +111,17 @@ function playAudioImage() {
         if (posLeft < $(window).width() && posLeft+itemWidth > 0) {
             playAudio(posLeft, itemWidth, soundSource);
         } else {
-            // If no sound playing
-            // if(audioSource != null){
-            //     if(gainNode.gain.value == 0 && !audioSource.paused){
-            //         stopAudio();
-            //     }
-            // }
+            var gainOn = false;
+            for (var key in audioSrcList) {
+                if (audioSrcList.hasOwnProperty(key)) {
+                    if(audioSrcList[key][2].gain.value > 0){
+                        gainOn = true;
+                    }
+                }
+            }
+            if (!gainOn){
+                stopAudio();
+            }
         }
     });
 }
