@@ -5,7 +5,6 @@ import { updateMusic, updateVideo } from './music.js'
 import './index.scss'
 
 // Import videos
-import video1 from './assets/video/placeholder-video.mp4';
 import video2 from './assets/video/berlin-wall-1974-loop.mp4';
 import video3 from './assets/video/berlin-wall-animations.mp4';
 import video4 from './assets/video/fall-of-the-wall-loop.mp4';
@@ -65,8 +64,7 @@ function updateSizes(setPosition = false) {
   containerWidth = Math.ceil(container.outerWidth());
   slideWidth = Math.ceil(slides.first().outerWidth());
   windowWidth = Math.ceil(window.innerWidth);
-  //-slideWidth*2.7
-  startPosition = -slideWidth * 2.7; //-Math.floor(Math.random() * (containerWidth - slideWidth * slidePadding));
+  startPosition = -slideWidth * 10; //-Math.floor(Math.random() * (containerWidth - slideWidth * slidePadding));
   endPosition = -(containerWidth - slideWidth * slidePadding - windowWidth);
 
   // Update current scroll position
@@ -101,11 +99,8 @@ function updateAnimation() {
     handleWebCam();
   }
 
-  // Music
-  var pos = Math.abs(scrollPosition);
-  updateMusic(scrollPosition, slideWidth, scrollDirection, slidePadding, mode);
-
   // Calculate movement
+  var pos = Math.abs(scrollPosition);
   var minStepSize = .5;
   var maxStepSize = 3;
   var stepSize = (scrollSpeed * (maxStepSize - minStepSize));
@@ -127,12 +122,15 @@ function updateAnimation() {
     scrollPosition = endPosition;
   }
 
+  // Update sound
+  updateMusic(scrollPosition, slideWidth, scrollDirection, slidePadding, mode);
+  updateVideo(windowWidth, mode);
+
   // Update DOM
   if (scrollSpeed > 0) {
     requestAnimationFrame(function () {
       setTransform(container, 'translateX(' + scrollPosition + 'px)');
       updateParallax();
-      updateVideo(windowWidth);
       updateAnimation();
     });
   } else {

@@ -65,14 +65,8 @@ $imageWidth: 3000;
     &-1 {
       &-1 {
         // Image
-        @include position(271, 190);
+        @include position(271, 790);
         @include image-sizing(458);
-      }
-
-      &-1-text {
-        // Text
-        @include position(176, 347);
-        @include text-sizing(40, 100);
       }
 
       &-2 {
@@ -437,13 +431,13 @@ $imageWidth: 3000;
     &-14 {
       &-1-text {
         // Text
-        @include position(659,1215);
+        @include position(659,1015);
         @include text-sizing(40, 850);
       }
 
       &-2 {
         // Video
-        @include position(159,2269);
+        @include position(159,2169);
         @include video-sizing(450);
 
         video {
@@ -453,7 +447,7 @@ $imageWidth: 3000;
 
       &-2-text {
         // Text
-        @include position(600,2340);
+        @include position(620,2240);
         @include text-sizing(40, 285);
 
         .text-wrapper {

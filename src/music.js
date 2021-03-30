@@ -40,37 +40,52 @@ var audioSrcList = [];
 var audioSource;
 var fade = 0;
 
-export function updateVideo(windowWidth) {
-  $('.js-video').each(function () {
-    var posLeft = $(this).offset().left;
-    var itemWidth = $(this).outerWidth();
-    var $video = $(this).find('video');
-    var isPlaying = $video.data('isPlaying') ?? false;
-    if (posLeft < windowWidth && posLeft + itemWidth > 0) {
-      // VIDEO IS IN SCREEN
-      if (!isPlaying) {
-        fadeSound($video, true);
-        $video.data('isPlaying', true);
+export function updateVideo(windowWidth, mode) {
+
+  if (mode === 'interactive') {
+    $('.js-video').each(function () {
+      var posLeft = $(this).offset().left;
+      var itemWidth = $(this).outerWidth();
+      var $video = $(this).find('video');
+      var isPlaying = $video.data('isPlaying') ?? false;
+      if (posLeft < windowWidth && posLeft + itemWidth > 0) {
+        // VIDEO IS IN SCREEN
+        if (!isPlaying) {
+          fadeSound($video, true);
+          $video.data('isPlaying', true);
+        }
+      } else {
+        // VIDEO IS OUT OF SCREEN
+        if (isPlaying) {
+          fadeSound($video, false);
+          $video.data('isPlaying', false);
+        }
       }
-    } else {
-      // VIDEO IS OUT OF SCREEN
+    });
+  } else {
+    $('.js-video').each(function () {
+      var $video = $(this).find('video');
+      var isPlaying = $video.data('isPlaying') ?? false;
       if (isPlaying) {
-        fadeSound($video, false);
+        fadeSound($video, false, true);
         $video.data('isPlaying', false);
       }
-    }
-  });
+    });
+  }
 }
 
-function fadeSound($video, turnSoundOn) {
+var fadeAudio;
+function fadeSound($video, turnSoundOn, force = false) {
   var isFading = $video.data('isFading') ?? false;
-  if (isFading) return;
+
+  if (isFading && !force) return;
 
   $video.data('virtualVolume', turnSoundOn ? 0 : 1);
   $video.data('isFading', true);
 
-  var fadeAudio = setInterval(function () {
+  if (force) clearInterval(fadeAudio);
 
+  fadeAudio = setInterval(function () {
     var currentVolume = $video.data('virtualVolume');
     var newVolume = turnSoundOn ? Math.min(1, currentVolume + .05) : Math.max(0, currentVolume - .05);
     // Only fade if past the fade out point or not at zero already
