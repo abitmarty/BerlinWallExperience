@@ -116,9 +116,9 @@ function playAudioImage() {
     $('.js-sound').each(function () {
         var posLeft = $(this).offset().left;
         var itemWidth = $(this).outerWidth();
-        var soundSource = $(this).find('img');
+        var soundName = $(this).data('sound');
         if (posLeft < $(window).width() && posLeft+itemWidth > 0) {
-            playAudio(posLeft, itemWidth, soundSource);
+            playAudio(posLeft, itemWidth, soundName);
         } else {
             var gainOn = false;
             for (var key in audioSrcList) {
@@ -135,7 +135,7 @@ function playAudioImage() {
     });
 }
 
-function playAudio(posLeft, itemWidth, soundSource){
+function playAudio(posLeft, itemWidth, soundName){
     // check if context is in suspended state (autoplay policy)
 	// if (audioCtx.state === 'suspended') {
 	// 	audioCtx.resume();
@@ -150,18 +150,18 @@ function playAudio(posLeft, itemWidth, soundSource){
     }
 
     // Set source
-    if (!(soundSource[0].className in audioSrcList)){
-        lastTargetedBlock = soundSource[0].className;
-        setAudioSource(soundSource);
+    if (!(soundName in audioSrcList)){
+        lastTargetedBlock = soundName.className;
+        setAudioSource(soundName);
     }
     // Play sounds
-    if(audioSrcList[soundSource[0].className][0] != null && audioSrcList[soundSource[0].className][0].paused){
-        audioSrcList[soundSource[0].className][0].play().catch(function(error) { });
+    if(audioSrcList[soundName][0] != null && audioSrcList[soundName][0].paused){
+        audioSrcList[soundName][0].play().catch(function (error) { });
     }
     // Set volume and panning
-    if (soundSource[0].className in audioSrcList){
-        audioSrcList[soundSource[0].className][2].gain.value = gainValue * (fade/100);
-        audioSrcList[soundSource[0].className][1].pan.value = panValue;
+    if (soundName in audioSrcList){
+        audioSrcList[soundName][2].gain.value = gainValue * (fade/100);
+        audioSrcList[soundName][1].pan.value = panValue;
     }
 }
 
@@ -176,15 +176,15 @@ function stopAudio(){
 }
 
 // Create new audio based on the image we're looking at.
-function setAudioSource(soundSource){
+function setAudioSource(soundName){
     pannerOptions = {pan: 0};
     audioCtx = new AudioContext();
     panner = new StereoPannerNode(audioCtx, pannerOptions);
     gainNode = audioCtx.createGain();
-    audioSource = new Audio(targetedBlocks[soundSource[0].className]);
+    audioSource = new Audio(targetedBlocks[soundName]);
     audioSource.loop = true;
     const trackSlide2 = audioCtx.createMediaElementSource(audioSource);
     trackSlide2.connect(gainNode).connect(panner).connect(audioCtx.destination);
-    audioSrcList[soundSource[0].className] = [audioSource, panner, gainNode];
+    audioSrcList[soundName] = [audioSource, panner, gainNode];
 }
 
