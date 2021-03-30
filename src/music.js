@@ -2,14 +2,20 @@
 var $ = require("jquery");
 
 // Audio files
+//Old
 import bowie from './assets/audio/david-bowie-helden.mp3'
-import bowieNew from './assets/audio/david-bowie-helden-new.mp3'
 import dakota from './assets/audio/dakota-sound.mp3'
+
+// New
+import bowieNew from './assets/audio/david-bowie-helden-new.mp3'
 import dakotaNew from './assets/audio/dakota-sound-new.mp3'
 import trabant from './assets/audio/trabant-sound-final.mp3'
 import voice1 from './assets/audio/voice-over-1.mp3'
 import voice2 from './assets/audio/voice-over-2.mp3'
 import voice3 from './assets/audio/voice-1961.mp3'
+import abuJamal from './assets/audio/abu-jamal.mp3'
+import freedomDavidHasselhof from './assets/audio/lookingForFreedom.mp3'
+import bowieWarsza from './assets/audio/Warszawa-2017-remaster.mp3'
 
 // Audio settings
 const AudioContext = window.AudioContext || window.webkitAudioContext;
@@ -26,13 +32,16 @@ var targetedBlocks = [];
 var lastTargetedBlock = "";
 targetedBlocks.trabant = trabant;
 targetedBlocks.dakota = dakotaNew;
-targetedBlocks.bowie = bowieNew;
+targetedBlocks.bowieHeroes = bowieNew;
+targetedBlocks.voice1 = voice1;
 targetedBlocks.voice2 = voice2;
-
-var audioSrcList = [];
-
+targetedBlocks.voice3 = voice3;
+targetedBlocks.abuJamal = abuJamal;
+targetedBlocks.freedomDavidHasselhof = freedomDavidHasselhof;
+targetedBlocks.bowieWarsza = bowieWarsza;
 
 // Var
+var audioSrcList = [];
 var audioSource;
 var fade = 0;
 
