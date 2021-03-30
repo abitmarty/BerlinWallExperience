@@ -86,7 +86,7 @@ function fadeSound($video, turnSoundOn) {
 }
 
 export function playMusic(pos, slideWidth, scrollDirection, slidePadding, mode){
-    // Ez fade
+    // Ez fade on mode change
     if (mode != 'floating'){
         if (fade >= 0 && fade < 100){
             fade++;
@@ -101,8 +101,6 @@ export function playMusic(pos, slideWidth, scrollDirection, slidePadding, mode){
             fade = 0;
         }
     }
-    // fade = 100;
-    // playAudioImage()
 }
 
 function playAudioImage() {
@@ -114,11 +112,11 @@ function playAudioImage() {
             playAudio(posLeft, itemWidth, soundSource);
         } else {
             // If no sound playing
-            if(audioSource != null){
-                if(gainNode.gain.value == 0 && !audioSource.paused){
-                    stopAudio();
-                }
-            }
+            // if(audioSource != null){
+            //     if(gainNode.gain.value == 0 && !audioSource.paused){
+            //         stopAudio();
+            //     }
+            // }
         }
     });
 }
@@ -136,28 +134,37 @@ function playAudio(posLeft, itemWidth, soundSource){
     if (percentagePosition > 0.5){
         gainValue = 2 - gainValue;
     }
-    gainNode.gain.value = gainValue * (fade/100);
-    panner.pan.value = panValue;
 
     // Set source
-    if (lastTargetedBlock != soundSource[0].className){
+    if (!(soundSource[0].className in audioSrcList)){
+        console.log("add to");
         lastTargetedBlock = soundSource[0].className;
         setAudioSource(soundSource);
+        console.log(audioSrcList[soundSource[0].className][0]);
     }
-    if(audioSource.paused){
-        audioSource.play().catch(function(error) { });
+    // Play sounds
+    if(audioSrcList[soundSource[0].className][0] != null && audioSrcList[soundSource[0].className][0].paused){
+        console.log("Play: " + soundSource[0].className);
+        audioSrcList[soundSource[0].className][0].play().catch(function(error) { });
+    }
+    // Set volume and panning
+    if (soundSource[0].className in audioSrcList){
+        audioSrcList[soundSource[0].className][2].gain.value = gainValue * (fade/100);
+        audioSrcList[soundSource[0].className][1].pan.value = panValue;
     }
 }
 
-// it currently starts over. We might want to change that?
+// Go through all audio sources and pause them and reset to 0
 function stopAudio(){
-    if (audioSource != null){
-        audioSource.pause();
-        audioSource.currentTime = 0;
+    for (var key in audioSrcList) {
+        if (audioSrcList.hasOwnProperty(key)) {
+            audioSrcList[key][0].pause();
+            audioSrcList[key][0].currentTime = 0;
+        }
     }
 }
 
-// Create new audio based on the position we're in
+// Create new audio based on the image we're looking at.
 function setAudioSource(soundSource){
     pannerOptions = {pan: 0};
     audioCtx = new AudioContext();
@@ -167,7 +174,6 @@ function setAudioSource(soundSource){
     audioSource.loop = true;
     const trackSlide2 = audioCtx.createMediaElementSource(audioSource);
     trackSlide2.connect(gainNode).connect(panner).connect(audioCtx.destination);
-        audioSrcList[soundSource[0].className] = [audioSource, panner, gainNode];
-
+    audioSrcList[soundSource[0].className] = [audioSource, panner, gainNode];
 }
 
