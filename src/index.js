@@ -66,7 +66,7 @@ function updateSizes(setPosition = false) {
   slideWidth = Math.ceil(slides.first().outerWidth());
   windowWidth = Math.ceil(window.innerWidth);
   //-slideWidth*2.7
-  startPosition = -slideWidth*2.7; //-Math.floor(Math.random() * (containerWidth - slideWidth * slidePadding));
+  startPosition = -slideWidth * 2.7; //-Math.floor(Math.random() * (containerWidth - slideWidth * slidePadding));
   endPosition = -(containerWidth - slideWidth * slidePadding - windowWidth);
 
   // Update current scroll position
@@ -87,7 +87,7 @@ var cachedSpeed = scrollSpeed;
 function updateAnimation() {
 
   if (isResizing) return;
-  
+
   if (scrollSpeed !== cachedSpeed) {
     $('body').removeClass('is-moving');
     if (scrollSpeed > 0) {
@@ -126,7 +126,7 @@ function updateAnimation() {
   } else if (containerWidth - windowWidth - ((originalSlides.length + slidePadding) * slideWidth) > pos) {
     scrollPosition = endPosition;
   }
-  
+
   // Update DOM
   if (scrollSpeed > 0) {
     requestAnimationFrame(function () {
@@ -192,9 +192,9 @@ $(window).on('resize', function () {
   isResizing = true;
   isAnimating = false;
   updateSizes(true);
-  
+
   if (resizeEvent) clearTimeout(resizeEvent);
-  
+
   resizeEvent = setTimeout(function () {
     isResizing = false;
     startAnimation();
@@ -228,37 +228,37 @@ function updateParallax() {
 // -------------WEBCAM CONTROL-----------
 const showWebCamDebugInfo = false; //set this to true for debugging purposes
 
-const webcamElements = WebCam.initialiseElements(showWebCamDebugInfo,100,100);//initialise the video & canvas size, tho this probs doesn't do much
+const webcamElements = WebCam.initialiseElements(showWebCamDebugInfo, 100, 100);//initialise the video & canvas size, tho this probs doesn't do much
 const wc = new WebCam.webcam({
-  video:webcamElements.video,
+  video: webcamElements.video,
   canvas: webcamElements.canvas,
-  width:100,
-  height:100,
-  min_diff:10,
-  diff_to_count:5,
-  displayDifference:false
+  width: 100,
+  height: 100,
+  min_diff: 10,
+  diff_to_count: 5,
+  displayDifference: false
 });
 
 const wcControl = new WebCam.control({
-  min_dial_value:-1,
-  max_dial_value:1,
-  plusQuadrant:[60,0,40,40],
-  minusQuadrant:[0,0,40,40]
+  min_dial_value: -1,
+  max_dial_value: 1,
+  plusQuadrant: [60, 0, 40, 40],
+  minusQuadrant: [0, 0, 40, 40]
 })
 
 // this is called every animation frame
-function handleWebCam() { 
+function handleWebCam() {
   let delta = 4; // constant, to be determined, how far the dial turns
   wc.frame();
   let a_x = wc.averageX();
-  let mov = wc.movementAt(0,0,100,100)
-  if(mov) {
-    wcControl.dial_value = wcControl.forceDial(a_x*delta);//wcControl.turnDial(mov * delta);
+  let mov = wc.movementAt(0, 0, 100, 100)
+  if (mov) {
+    wcControl.dial_value = wcControl.forceDial(a_x * delta);//wcControl.turnDial(mov * delta);
     scrollSpeed = wcControl.speed;
     scrollDirection = wcControl.direction;
     updateMovementSlider()
   }
-  if(showWebCamDebugInfo) {
+  if (showWebCamDebugInfo) {
     webcamElements.debug.innerText = `
       dial_value: ${wcControl.dial_value},
       speed: ${scrollSpeed},
