@@ -28,6 +28,7 @@ var scrollSpeed = defaultScrollSpeed;
 var mode = 'floating'; // Default mode
 
 var isDebug = location.hash === '#debug';
+var hideSlider = location.hash === '#hideSlider';
 
 // Resize helpers
 var resizeEvent;
@@ -35,7 +36,6 @@ var isResizing = false;
 
 // Initial setup
 function setupAnimation() {
-
   // Make clones
   var firstSlide = slides.first().clone(true).addClass('clone');
   var lastSlide = slides.last().clone(true).addClass('clone');
@@ -45,6 +45,10 @@ function setupAnimation() {
 
   if (!isDebug) {
     $('.js-controls').hide();
+  }
+
+  if (hideSlider) {
+    $('.js-slider-indicator').hide();
   }
 
   // Calculate sizes and positions
@@ -154,10 +158,7 @@ $('.js-control').on('click', function () {
 // Control the mode via space bar
 $(document).on('keyup', function (e) {
   if (!isDebug && e.keyCode === 32) {
-    mode = mode === 'floating' ? 'interactive' : 'floating';
-    scrollSpeed = defaultScrollSpeed;
-    updateMovementSlider();
-    startAnimation();
+    updateMode((mode === 'floating' ? 'interactive' : 'floating'));
   }
 });
 
@@ -170,19 +171,21 @@ function updateMovementSlider() {
 }
 
 // Mode button listeners
-$('.js-control-mode').on('click', function () {
-  var newMode = $(this).data('mode');
+function updateMode(newMode) {
+
   var target = $('body');
   target.removeClass('is-init-mode');
+
   if (newMode === 'floating') {
     target.removeClass('is-interactive-mode').addClass('is-floating-mode');
     scrollSpeed = defaultScrollSpeed;
   } else if (newMode === 'interactive') {
     target.removeClass('is-floating-mode').addClass('is-interactive-mode');
   }
+
   updateMovementSlider();
   mode = newMode;
-});
+}
 
 // Recalculate variables on window resize
 // The function temporarily stops the animation until resize is finished
