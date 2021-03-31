@@ -261,6 +261,7 @@ $imageWidth: 3000;
         // Image
         @include position(43,88);
         @include image-sizing(335);
+        z-index:999;
       }
 
       &-2 {
@@ -462,20 +463,25 @@ $imageWidth: 3000;
   
 }
 
-// body {
-//   &.is-interactive-mode {
-//     .slide-item {
-//       transition: opacity 1s ease-out;
-//       opacity:1;
-//     }
-//   }
+body {
+  // &.is-interactive-mode {
+  //   .slide-item {
+  //     transition: opacity 1s ease-out;
+  //     opacity:1;
+  //   }
+  // }
 
-//   &.is-floating-mode {
-//     .slide-item {
-//       transition: opacity 2s;
-//     }
-//   }
-// }
+  &.is-interactive-mode {
+    [class$="-text"] {
+      opacity:1;
+    }
+  }
+
+  [class$="-text"] {
+    opacity:0;
+    transition: opacity 1s;
+  }
+}
 
 @keyframes rotateClockWise {
   from {
