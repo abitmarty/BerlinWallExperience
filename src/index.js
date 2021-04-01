@@ -155,6 +155,13 @@ $('.js-control').on('click', function () {
   startAnimation();
 });
 
+// Mode button listeners
+$('.js-control-mode').on('click', function () {
+  var newMode = $(this).data('mode');
+  updateMode(newMode);
+});
+
+
 // Control the mode via space bar
 $(document).on('keyup', function (e) {
   if (!isDebug && e.keyCode === 32) {
@@ -227,17 +234,36 @@ function updateParallax() {
   });
 }
 // -------------WEBCAM CONTROL-----------
-const showWebCamDebugInfo = false; //set this to true for debugging purposes
+// use this if background is static
+const wc_conf_static = {
+  size:100,
+  min_diff:30,
+  diff_to_count:3,
+  delta:30,
+  delta_x:10
+}
 
-const webcamElements = WebCam.initialiseElements(showWebCamDebugInfo, 100, 100);//initialise the video & canvas size, tho this probs doesn't do much
-const wc = new WebCam.webcam({
-  video: webcamElements.video,
+// use this if background is dynamic
+const wc_conf = {
+    size:100,
+    min_diff:7,
+    diff_to_count:1,
+    delta:20,
+    delta_x:30
+  }
+
+
+const showWebCamDebugInfo = true; //set this to true for debugging purposes
+
+const webcamElements = WebCam.initialiseElements(showWebCamDebugInfo,100,100);//initialise the video & canvas size, tho this probs doesn't do much
+window.wc = new WebCam.webcam({
+  video:webcamElements.video,
   canvas: webcamElements.canvas,
-  width: 100,
-  height: 100,
-  min_diff: 10,
-  diff_to_count: 5,
-  displayDifference: false
+  width:wc_conf.size,
+  height:wc_conf.size,
+  min_diff:wc_conf.min_diff,
+  diff_to_count:wc_conf.diff_to_count,
+  displayDifference:true
 });
 
 const wcControl = new WebCam.control({
@@ -248,27 +274,59 @@ const wcControl = new WebCam.control({
 })
 
 // this is called every animation frame
-function handleWebCam() {
-  let delta = 4; // constant, to be determined, how far the dial turns
+let delta_x = wc_conf.delta_x; // constant, to be determined, how far the dial turns
+let delta = wc_conf.delta;
+let dtc = wc_conf.diff_to_count;
+function handleWebCam() { 
   wc.frame();
-  let a_x = wc.averageX();
-  let mov = wc.movementAt(0, 0, 100, 100)
-  if (mov) {
-    wcControl.dial_value = wcControl.forceDial(a_x * delta);//wcControl.turnDial(mov * delta);
+  let {averagex, average} = wc.averageX(1,1);
+  let mov = average*delta > dtc;
+  if(mov) {
+    wcControl.dial_value = wcControl.forceDial(averagex*delta_x);
     scrollSpeed = wcControl.speed;
     scrollDirection = wcControl.direction;
-    updateMovementSlider()
+    updateMovementSlider();
   }
   if (showWebCamDebugInfo) {
     webcamElements.debug.innerText = `
       dial_value: ${wcControl.dial_value},
       speed: ${scrollSpeed},
       direction: ${scrollDirection}
-      sumx: ${a_x}
+      sumx: ${averagex}
+      sum: ${average * delta}
+      static: ${wc.useBackground}
+      delta: ${delta}
+      delta_x: ${delta_x}
+      diff_to_count: ${dtc}
     `
   }
 }
 
+function toggleStaticBackground() {
+  wc.useBackground = !wc.useBackground;
+  if(wc.useBackground){
+    wc.min_diff = wc_conf_static.min_diff;
+    wc.diff_to_count = wc_conf_static.diff_to_count;
+    delta = wc_conf_static.delta;
+    delta_x = wc_conf_static.delta_x;
+    dtc = wc_conf_static.diff_to_count;
+    wc.setBackground();
+    return true;
+  }
+
+  wc.min_diff = wc_conf.min_diff;
+  wc.diff_to_count = wc_conf.diff_to_count;
+  delta = wc_conf.delta;
+  delta_x = wc_conf.delta_x;
+  dtc = wc_conf.diff_to_count;
+  return false;
+}
+
+window.addEventListener("keyup",(e)=>{
+  if (e.code == "Tab") {
+    toggleStaticBackground();
+  }
+},false)
 
 wc.init(); // initialise webcam (ask for camera permission etc)
 //---------------------------------------

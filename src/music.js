@@ -161,7 +161,7 @@ function playAudio(posLeft, itemWidth, soundName) {
 
   // Set source
   if (!(soundName in audioSrcList)) {
-    lastTargetedBlock = soundName.className;
+    lastTargetedBlock = soundName;
     setAudioSource(soundName);
   }
   // Play sounds
