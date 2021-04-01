@@ -15,7 +15,7 @@ const WebCam = require("./webcam");
 
 // Vars
 const slidePadding = 1; // The number of clones on each side
-var containerWidth, slideWidth, windowWidth, startPosition, endPosition, scrollPosition, relScrollPosition;
+var containerWidth, slideWidth, windowWidth, startPosition, endPosition, scrollPosition, relScrollPosition, zeroPosition;
 var container = $('.js-container');
 var slides = container.find('.js-slide');
 var originalSlides = container.find('.js-slide:not(.clone)');
@@ -69,6 +69,7 @@ function updateSizes(setPosition = false) {
   slideWidth = Math.ceil(slides.first().outerWidth());
   windowWidth = Math.ceil(window.innerWidth);
   startPosition = -Math.floor(Math.random() * (containerWidth - slideWidth * slidePadding));
+  zeroPosition = -slideWidth * slidePadding;
   endPosition = -(containerWidth - slideWidth * slidePadding - windowWidth);
 
   // Update current scroll position
@@ -106,7 +107,7 @@ function updateAnimation() {
   // Calculate movement
   var pos = Math.abs(scrollPosition);
   var minStepSize = .5;
-  var maxStepSize = 3;
+  var maxStepSize = 15;
   var stepSize = (scrollSpeed * (maxStepSize - minStepSize));
 
   // Set new scroll position
@@ -121,7 +122,7 @@ function updateAnimation() {
 
   // Jump to end or start
   if ((originalSlides.length + slidePadding) * slideWidth < pos) {
-    scrollPosition = startPosition;
+    scrollPosition = zeroPosition;
   } else if (containerWidth - windowWidth - ((originalSlides.length + slidePadding) * slideWidth) > pos) {
     scrollPosition = endPosition;
   }
