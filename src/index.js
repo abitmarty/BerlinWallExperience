@@ -107,7 +107,7 @@ function updateAnimation() {
   // Calculate movement
   var pos = Math.abs(scrollPosition);
   var minStepSize = .5;
-  var maxStepSize = 15;
+  var maxStepSize = 7;
   var stepSize = (scrollSpeed * (maxStepSize - minStepSize));
 
   // Set new scroll position
@@ -254,9 +254,9 @@ const wc_conf = {
   }
 
 
-const showWebCamDebugInfo = true; //set this to true for debugging purposes
+var showWebCamDebugInfo = true; //set this to true for debugging purposes
 
-const webcamElements = WebCam.initialiseElements(showWebCamDebugInfo,100,100);//initialise the video & canvas size, tho this probs doesn't do much
+var webcamElements = WebCam.initialiseElements(showWebCamDebugInfo,100,100);//initialise the video & canvas size, tho this probs doesn't do much
 window.wc = new WebCam.webcam({
   video:webcamElements.video,
   canvas: webcamElements.canvas,
@@ -326,6 +326,9 @@ function toggleStaticBackground() {
 window.addEventListener("keyup",(e)=>{
   if (e.code == "Tab") {
     toggleStaticBackground();
+  } else if (e.code == "KeyD") {
+    showWebCamDebugInfo = !showWebCamDebugInfo;
+    webcamElements.wrapper.hidden = !showWebCamDebugInfo;
   }
 },false)
 
