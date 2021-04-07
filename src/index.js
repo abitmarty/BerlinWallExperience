@@ -174,7 +174,7 @@ $('.js-control-mode').on('click', function () {
 
 // Control the mode via space bar
 $(document).on('keyup', function (e) {
-  if (!isDebug && e.keyCode === 32) {
+  if (!isDemo && !isDebug && e.keyCode === 32) {
     updateMode((mode === 'floating' ? 'interactive' : 'floating'));
   }
 });
@@ -333,6 +333,8 @@ function toggleStaticBackground() {
 }
 
 window.addEventListener("keyup", (e) => {
+  if (isDemo) return;
+
   if (e.code == "Tab") {
     toggleStaticBackground();
   } else if (e.code == "KeyD") {
