@@ -29,6 +29,7 @@ var mode = 'floating'; // Default mode
 
 var isDebug = location.hash === '#debug';
 var hideSlider = location.hash === '#hideSlider';
+var isDemo = location.hash === '#demo';
 
 // Resize helpers
 var resizeEvent;
@@ -43,8 +44,16 @@ function setupAnimation() {
   container.append(firstSlide);
   slides = container.find('.js-slide'); //refetch slides
 
+  if (isDemo) {
+    isDebug = false;
+    hideSlider = true;
+    mode = 'interactive';
+  }
+
   if (!isDebug) {
     $('.js-controls').hide();
+    showWebCamDebugInfo = false;
+    webcamElements.wrapper.hidden = true;
   }
 
   if (hideSlider) {
@@ -107,7 +116,7 @@ function updateAnimation() {
   // Calculate movement
   var pos = Math.abs(scrollPosition);
   var minStepSize = .5;
-  var maxStepSize = 7;
+  var maxStepSize = 6;
   var stepSize = (scrollSpeed * (maxStepSize - minStepSize));
 
   // Set new scroll position
@@ -237,34 +246,34 @@ function updateParallax() {
 // -------------WEBCAM CONTROL-----------
 // use this if background is static
 const wc_conf_static = {
-  size:100,
-  min_diff:30,
-  diff_to_count:3,
-  delta:30,
-  delta_x:10
+  size: 100,
+  min_diff: 30,
+  diff_to_count: 3,
+  delta: 30,
+  delta_x: 10
 }
 
 // use this if background is dynamic
 const wc_conf = {
-    size:100,
-    min_diff:7,
-    diff_to_count:1,
-    delta:20,
-    delta_x:30
-  }
+  size: 100,
+  min_diff: 7,
+  diff_to_count: 1,
+  delta: 20,
+  delta_x: 30
+}
 
 
 var showWebCamDebugInfo = true; //set this to true for debugging purposes
 
-var webcamElements = WebCam.initialiseElements(showWebCamDebugInfo,100,100);//initialise the video & canvas size, tho this probs doesn't do much
+var webcamElements = WebCam.initialiseElements(showWebCamDebugInfo, 100, 100);//initialise the video & canvas size, tho this probs doesn't do much
 window.wc = new WebCam.webcam({
-  video:webcamElements.video,
+  video: webcamElements.video,
   canvas: webcamElements.canvas,
-  width:wc_conf.size,
-  height:wc_conf.size,
-  min_diff:wc_conf.min_diff,
-  diff_to_count:wc_conf.diff_to_count,
-  displayDifference:true
+  width: wc_conf.size,
+  height: wc_conf.size,
+  min_diff: wc_conf.min_diff,
+  diff_to_count: wc_conf.diff_to_count,
+  displayDifference: true
 });
 
 const wcControl = new WebCam.control({
@@ -278,12 +287,12 @@ const wcControl = new WebCam.control({
 let delta_x = wc_conf.delta_x; // constant, to be determined, how far the dial turns
 let delta = wc_conf.delta;
 let dtc = wc_conf.diff_to_count;
-function handleWebCam() { 
+function handleWebCam() {
   wc.frame();
-  let {averagex, average} = wc.averageX(1,1);
-  let mov = average*delta > dtc;
-  if(mov) {
-    wcControl.dial_value = wcControl.forceDial(averagex*delta_x);
+  let { averagex, average } = wc.averageX(1, 1);
+  let mov = average * delta > dtc;
+  if (mov) {
+    wcControl.dial_value = wcControl.forceDial(averagex * delta_x);
     scrollSpeed = wcControl.speed;
     scrollDirection = wcControl.direction;
     updateMovementSlider();
@@ -305,7 +314,7 @@ function handleWebCam() {
 
 function toggleStaticBackground() {
   wc.useBackground = !wc.useBackground;
-  if(wc.useBackground){
+  if (wc.useBackground) {
     wc.min_diff = wc_conf_static.min_diff;
     wc.diff_to_count = wc_conf_static.diff_to_count;
     delta = wc_conf_static.delta;
@@ -323,23 +332,34 @@ function toggleStaticBackground() {
   return false;
 }
 
-window.addEventListener("keyup",(e)=>{
+window.addEventListener("keyup", (e) => {
   if (e.code == "Tab") {
     toggleStaticBackground();
   } else if (e.code == "KeyD") {
     showWebCamDebugInfo = !showWebCamDebugInfo;
     webcamElements.wrapper.hidden = !showWebCamDebugInfo;
   }
-},false)
+}, false)
 
 wc.init(); // initialise webcam (ask for camera permission etc)
 //---------------------------------------
 
+$(document).on('click', '.js-button-start', function () {
 
-$(window).on('load', function () {
-  // Initiate the animation
-  setupAnimation();
+  navigator.getMedia = (navigator.getUserMedia ||
+    navigator.webkitGetUserMedia ||
+    navigator.mozGetUserMedia ||
+    navigator.msGetUserMedia);
 
-  // Remove loading screen
-  $('body').addClass('is-ready');
+  navigator.getMedia({ video: true }, function () {
+    // Initiate the animation
+    setupAnimation();
+
+    // Remove loading screen
+    $('body').addClass('is-ready');
+  }, function () {
+    alert('Please give access to your webcam');
+    return false;
+  });
+
 });
