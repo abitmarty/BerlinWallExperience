@@ -1,4 +1,4 @@
-.loading-overlay {
+.loading-overlay, .start-screen {
   position: fixed;
   height:100%;
   width:100%;
@@ -38,19 +38,44 @@
     color: $color-dark;
     font-weight:bold;
     margin: 20px 0 0 0;
+    transition: transform .2s;
 
     &:hover {
       background-color: rgba(255,255,255, .8);
+      transform:scale(1.1);
     }
+  }
+
+  small {
+    display:block;
+    margin: 2em 0 1em 0;
+    font-size:14px;
+    line-height:1.5;
+    color: rgba(255, 255, 255, .5);
   }
 }
 
+.loading-overlay {
+  z-index:9999999 + 1;
+  svg {
+    width:100px;
+    height:100px;
+  }
+}
 
 body.is-ready {
   .loading-overlay {
     transition: color .5s ease;
     color: transparent;
-    animation: fadeOut 3s forwards;
+    animation: fadeOut 1s forwards;
+  }
+}
+
+body.is-initiated {
+  .start-screen {
+    transition: color .5s ease;
+    color: transparent;
+    animation: fadeOut 1s forwards;
 
     button {
       visibility: hidden;

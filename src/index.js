@@ -37,18 +37,20 @@ var isResizing = false;
 
 // Initial setup
 function setupAnimation() {
+
+  if (isDemo) {
+    isDebug = false;
+    hideSlider = true;
+    mode = 'interactive';
+    openFullscreen();
+  }
+
   // Make clones
   var firstSlide = slides.first().clone(true).addClass('clone');
   var lastSlide = slides.last().clone(true).addClass('clone');
   container.prepend(lastSlide);
   container.append(firstSlide);
   slides = container.find('.js-slide'); //refetch slides
-
-  if (isDemo) {
-    isDebug = false;
-    hideSlider = true;
-    mode = 'interactive';
-  }
 
   if (!isDebug) {
     $('.js-controls').hide();
@@ -347,7 +349,6 @@ wc.init(); // initialise webcam (ask for camera permission etc)
 //---------------------------------------
 
 $(document).on('click', '.js-button-start', function () {
-
   navigator.getMedia = (navigator.getUserMedia ||
     navigator.webkitGetUserMedia ||
     navigator.mozGetUserMedia ||
@@ -358,10 +359,27 @@ $(document).on('click', '.js-button-start', function () {
     setupAnimation();
 
     // Remove loading screen
-    $('body').addClass('is-ready');
+    $('body').addClass('is-initiated');
   }, function () {
     alert('Please give access to your webcam');
     return false;
   });
-
 });
+
+$(window).on('load', function () {
+  // Remove loading screen
+  $('body').addClass('is-ready');
+});
+
+
+/* View in fullscreen */
+function openFullscreen() {
+  var elem = document.documentElement;
+  if (elem.requestFullscreen) {
+    elem.requestFullscreen();
+  } else if (elem.webkitRequestFullscreen) { /* Safari */
+    elem.webkitRequestFullscreen();
+  } else if (elem.msRequestFullscreen) { /* IE11 */
+    elem.msRequestFullscreen();
+  }
+}

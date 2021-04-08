@@ -25,7 +25,7 @@
 
     @for $i from 1 through 14 {
       &.slide-#{$i} {
-        background-image:url('./assets/img/wall/wall-#{$i}.jpg');
+        background-image:url('./assets/img/wall/wall-#{$i}-compressed.jpg');
       }
     }
 
