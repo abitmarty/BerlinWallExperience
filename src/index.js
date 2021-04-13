@@ -246,6 +246,8 @@ function updateParallax() {
   });
 }
 // -------------WEBCAM CONTROL-----------
+//these settings are manually written. In a future update these should auto-adjust to lighting conditions etc.
+
 // use this if background is static
 const wc_conf_static = {
   size: 100,
@@ -267,7 +269,7 @@ const wc_conf = {
 
 var showWebCamDebugInfo = true; //set this to true for debugging purposes
 
-var webcamElements = WebCam.initialiseElements(showWebCamDebugInfo, 100, 100);//initialise the video & canvas size, tho this probs doesn't do much
+var webcamElements = WebCam.initialiseElements(showWebCamDebugInfo, 100, 100);//initialise the video & canvas size.
 window.wc = new WebCam.webcam({
   video: webcamElements.video,
   canvas: webcamElements.canvas,
@@ -285,15 +287,16 @@ const wcControl = new WebCam.control({
   minusQuadrant: [0, 0, 40, 40]
 })
 
-// this is called every animation frame
 let delta_x = wc_conf.delta_x; // constant, to be determined, how far the dial turns
 let delta = wc_conf.delta;
 let dtc = wc_conf.diff_to_count;
+
+//this runs every animation frame
 function handleWebCam() {
   wc.frame();
   let { averagex, average } = wc.averageX(1, 1);
   let mov = average * delta > dtc;
-  if (mov) {
+  if (mov) {//if difference is larger than given threshhold => turn the dial. Set the scroll speed and direction appropriately.
     wcControl.dial_value = wcControl.forceDial(averagex * delta_x);
     scrollSpeed = wcControl.speed;
     scrollDirection = wcControl.direction;

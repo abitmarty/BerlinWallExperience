@@ -1,24 +1,36 @@
 /*
-Made by Greg, with love and sacrifices to the elder gods
-*/
-
-/*
-  use:
+  --- components ---
+    - class Webcam
+    - class WebcamControl
+    - function initialiseElements
+  
+  --- Webcam ---
     const wc = new Webcam({
-      video: video_elem,
-      canvas:canvas_elem,
+      video: video_element,
+      canvas: canvas_element,
       width, height,
       min_diff: *for threshold,
       diff_to_count: *when averaging pixels to determine whether or not an action was performed,
-      displayDifference: (bool) whether or not to display the difference
+      displayDifference: (bool) whether or not to display the difference (Frame[n] - Frame[n-1])
     })
-    ------------
+
     inside animation loop:
-      wc.frame();
-      movement_in_quadrant = wc.movementAt(x,y,width,height);
-      if(movement_in_quadrant) {
-        do_something()
-      }
+      wc.frame(); => gets new frame, returns difference as wc.difference variable.
+                  => uses averageX function to return weighted average of pixel values * x-coordinate. => Tells you where on x axis there is movement.
+  
+  --- WebcamControl ---
+    const controls = new WebCam.control({
+      min_dial_value: -1,
+      max_dial_value: 1,
+      plusQuadrant: [x, y, width, height],
+      minusQuadrant: [X, Y, Width, Height]
+    })
+
+    inside animation loop:
+      controls.forceDial(some_value); where min_dial_values <= some_value <= max_dial_value
+      use controls.direction & controls.speed to set speed and direction of wall.
+
+  See index.js lines 248 - 352 for implementation
 */
 
 class Webcam {
@@ -148,22 +160,25 @@ class Webcam {
   }
 }
 
-//used to calculate speed at an easing (non-linear) pace
+//used to calculate speed at an easing (non-linear) pace. Replace with an easing function of your choice.
 function easing (x){
   return x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2;
 }
 
-// this is the controls. Sits between webcam and berlin wall
+// Sits between webcam and berlin wall
 class WebcamControl {
   constructor({min_dial_value,max_dial_value,plusQuadrant, minusQuadrant}){
     this.min_dial_value = min_dial_value; //should really be max_dial_value * -1
     this.max_dial_value = max_dial_value;
     this.dial_value = 0;
+
+    //These are redundant at this point in time. Kept here as may be useful in future updates.
     this.plusQuadrant = plusQuadrant; //[x,y,width,height] area to look at to increase speed
     this.minusQuadrant = minusQuadrant; //[x,y,width,height] area to look at to decrease speed
   }
 
-  turnDial(delta) { // linearly "turn the dial"
+  // linearly "turn the dial". Redundant but may be useful in future.
+  turnDial(delta) { 
     let new_val = this.dial_value + delta;
     if(new_val < this.min_dial_value){
       return this.min_dial_value;
@@ -174,6 +189,7 @@ class WebcamControl {
     return new_val
   }
 
+  //manually set the value
   forceDial(value){
     if(value < this.min_dial_value){
       return this.min_dial_value;
@@ -184,14 +200,12 @@ class WebcamControl {
     return value
   }
 
-  //right or left?
   get direction() {
     return this.dial_value < 0? "left" : "right";
   }
 
-  //vrooommmmm
   get speed() {
-    return this.dial_value > 0? easing(this.dial_value) : easing(- this.dial_value)
+    return easing(Math.abs(this.dial_value));
   }
 }
 
